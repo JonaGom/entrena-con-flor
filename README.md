@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# App de entrenamiento — sitio web (Flor)
 
-## Getting Started
+Proyecto de la página web para vender los paquetes de entrenamiento (pilates mat, ritmos,
+funcional y GAP). Armado con [Next.js](https://nextjs.org) 16, TypeScript y Tailwind CSS v4.
 
-First, run the development server:
+## Cómo correrlo en tu compu
+
+Necesitás tener instalado [Node.js](https://nodejs.org/) (versión 20 o más nueva).
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install     # instala las dependencias (una sola vez, o cuando cambien)
+npm run dev     # levanta el servidor de desarrollo
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Después abrí [http://localhost:3000](http://localhost:3000) en el navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Para generar la versión de producción:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Estructura del proyecto
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/
+    layout.tsx      → metadata del sitio (título, descripción) y estructura general
+    page.tsx         → arma la home juntando todas las secciones
+    globals.css      → colores de marca (placeholder) y estilos globales
+  components/
+    Header.tsx       → barra de navegación
+    Hero.tsx         → sección principal ("Pilates, ritmos, funcional y GAP...")
+    Categories.tsx   → las 4 disciplinas
+    Packages.tsx     → los 3 paquetes (Principiante / Intermedio / Avanzado)
+    Testimonials.tsx → testimonios de alumnas
+    About.tsx        → sección "Sobre Flor"
+    CtaBanner.tsx     → banner final de invitación a comprar
+    Footer.tsx       → pie de página
+    NoteBanner.tsx   → cartel superior que avisa que el contenido es de ejemplo
+  data/
+    content.ts       → ACÁ se edita el texto real: nombre de marca, categorías,
+                       precios de los paquetes y testimonios, sin tocar el diseño
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Estado actual
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Esta es la **home (página de inicio)** con contenido de ejemplo (placeholder):
+nombre de marca, precios, fotos y testimonios son todos provisorios. El resto de las
+pantallas del mapa del sitio (Paquetes y precios, Detalle de paquete, Sobre Flor, FAQ,
+Login/Checkout, área privada) todavía no están construidas.
 
-## Deploy on Vercel
+## Colores de marca (placeholder)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Definidos en `src/app/globals.css`. Se reemplazan fácilmente ahí una vez que elijan
+la identidad visual definitiva:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `--brand-accent`: `#6b2c5f` (vino/violeta)
+- `--brand-gold`: `#e8a33d` (dorado, para botones de acción)
+
+## Próximos pasos técnicos
+
+- Reemplazar el contenido de `src/data/content.ts` por el definitivo.
+- Sumar las fotos/video reales de Flor (reemplazando los emojis usados como placeholder).
+- Construir el resto de las pantallas del mapa del sitio.
+- Integrar Mercado Pago para el checkout y un backend (Firebase/Supabase) para
+  login y catálogo de clases, según lo definido en el plan de producto.
