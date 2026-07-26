@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200">
+  <rect x="0" y="0" width="600" height="200" rx="26" fill="#3d2a49"></rect>
+  <circle cx="100" cy="100" r="55" fill="#ffffff" stroke="#c98f3d" stroke-width="5"></circle>
+  <text x="100" y="120" text-anchor="middle" font-family="Georgia, &#39;Times New Roman&#39;, serif" font-size="46" fill="#4a3355" letter-spacing="1">EF</text>
+  <text x="185" y="117" font-family="Georgia, &#39;Times New Roman&#39;, serif" font-size="42" fill="#ffffff">Entrená con Flor</text>
+</svg>

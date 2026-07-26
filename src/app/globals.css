@@ -32,3 +32,235 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+/* ---------------------------------------------------------------------
+ * Animaciones (julio 2026): entrada del Hero, reveal en scroll y
+ * movimiento ambiental sutil de fondo. Curvas de aceleración naturales,
+ * nada exagerado — ver AGENTS.md/pedido de Jonathan sobre "premium, no
+ * recargado". Todo respeta prefers-reduced-motion al final del archivo.
+ * ------------------------------------------------------------------- */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes float-a {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(16px, -20px);
+  }
+}
+
+@keyframes float-b {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-18px, 16px);
+  }
+}
+
+/* Entrada del Hero: título, subtítulo, línea destacada y botones aparecen
+ * escalonados; la cita entra con un fade simple; la foto entra desde la
+ * derecha con un movimiento sutil. */
+.animate-hero-title {
+  animation: fade-up 550ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.animate-hero-subtitle {
+  animation: fade-up 550ms cubic-bezier(0.22, 1, 0.36, 1) 110ms both;
+}
+.animate-hero-highlight {
+  animation: fade-up 550ms cubic-bezier(0.22, 1, 0.36, 1) 210ms both;
+}
+.animate-hero-buttons {
+  animation: fade-up 550ms cubic-bezier(0.22, 1, 0.36, 1) 310ms both;
+}
+.animate-hero-quote {
+  animation: fade-in 600ms ease-out 420ms both;
+}
+.animate-hero-stats {
+  animation: fade-up 550ms cubic-bezier(0.22, 1, 0.36, 1) 500ms both;
+}
+.animate-hero-photo {
+  animation: slide-in-right 650ms cubic-bezier(0.22, 1, 0.36, 1) 160ms both;
+}
+
+.animate-float-a {
+  animation: float-a 9s ease-in-out infinite;
+}
+.animate-float-b {
+  animation: float-b 12s ease-in-out infinite;
+}
+
+/* Reveal en scroll: usado por el componente <Reveal>. Arranca oculto y
+ * desplazado unos px hacia abajo; al entrar en viewport, IntersectionObserver
+ * agrega .reveal-visible. */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 450ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------------------------------------------------------------------
+ * Fondo premium del Hero (julio 2026): más profundidad sobre el mismo
+ * degradado violeta y la misma textura de puntos que ya existían — sin
+ * cambiar estructura ni colores de marca. Resuelto con gradientes, blur
+ * y pseudo-elementos (nada de imágenes decorativas), para que sea
+ * liviano y fácil de retocar. Las clases se aplican en Hero.tsx.
+ * ------------------------------------------------------------------- */
+
+/* Viñeta casi imperceptible: oscurece apenas los bordes del Hero para
+ * llevar la mirada hacia el contenido central. */
+.hero-vignette::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 100% at 50% 40%, transparent 55%, rgba(8, 2, 10, 0.26) 100%);
+  pointer-events: none;
+}
+
+/* Barrido diagonal de luz/sombra muy sutil, para que el fondo se sienta
+ * en capas en vez de plano. */
+.hero-vignette::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 35%,
+    transparent 68%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* Luz ambiental muy tenue detrás del título, para dirigir la atención sin
+ * agregar una forma reconocible. */
+.hero-text-glow {
+  position: relative;
+}
+.hero-text-glow::before {
+  content: "";
+  position: absolute;
+  top: -70px;
+  left: -90px;
+  width: 520px;
+  height: 420px;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.09), transparent 100%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Halo violeta muy suave detrás del marco de la foto: blur grande, baja
+ * opacidad, solo para dar profundidad. */
+.hero-photo-halo::before {
+  content: "";
+  position: absolute;
+  inset: -60px;
+  background: radial-gradient(circle, rgba(180, 128, 199, 0.4), transparent 72%);
+  filter: blur(64px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Líneas orgánicas casi invisibles: arcos hechos con un solo borde de un
+ * círculo mucho más grande que el Hero (sin SVG). Opacidad 2-5%. */
+.hero-line {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  pointer-events: none;
+}
+.hero-line-a {
+  width: 900px;
+  height: 900px;
+  left: -240px;
+  top: -440px;
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+  border-left-color: rgba(255, 255, 255, 0.05);
+  transform: rotate(18deg);
+}
+.hero-line-b {
+  width: 1100px;
+  height: 1100px;
+  right: -380px;
+  bottom: -580px;
+  border-top-color: rgba(232, 163, 61, 0.05);
+  transform: rotate(-12deg);
+}
+.hero-line-c {
+  width: 760px;
+  height: 760px;
+  left: 32%;
+  top: -300px;
+  border-bottom-color: rgba(255, 255, 255, 0.03);
+  transform: rotate(6deg);
+}
+
+/* Partículas desenfocadas, muy dispersas y tenues — el tamaño, posición y
+ * opacidad de cada una se define inline en Hero.tsx. */
+.hero-particle {
+  position: absolute;
+  border-radius: 9999px;
+  background: #ffffff;
+  filter: blur(3px);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-title,
+  .animate-hero-subtitle,
+  .animate-hero-highlight,
+  .animate-hero-buttons,
+  .animate-hero-quote,
+  .animate-hero-stats,
+  .animate-hero-photo,
+  .animate-float-a,
+  .animate-float-b {
+    animation: none !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

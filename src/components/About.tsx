@@ -1,9 +1,20 @@
+import Image from "next/image";
+
 export default function About() {
   return (
     <section id="sobre-flor" className="bg-accent-dark text-white px-6 py-20">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-[0.8fr_1.2fr] gap-12 items-center">
-        <div className="aspect-square rounded-2xl bg-gradient-to-br from-accent-mid to-accent-dark border border-white/15 flex items-center justify-center text-7xl">
-          👩‍🏫
+        <div
+          className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-white/15"
+          style={{ aspectRatio: "3 / 4" }}
+        >
+          <Image
+            src="/images/flor-sobre-mi.jpg"
+            alt="Flor, profesora de educación física"
+            fill
+            sizes="(max-width: 768px) 100vw, 400px"
+            className="object-cover object-top"
+          />
         </div>
         <div>
           <div className="text-gold font-bold text-[13px] tracking-[1.2px] uppercase mb-2.5">

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400">
+  <g transform="translate(72,20)">
+    <circle cx="106" cy="106" r="78" fill="#6e4c7e" stroke="#c98f3d" stroke-width="6"></circle>
+    <text x="106" y="134" text-anchor="middle" font-family="Georgia, &#39;Times New Roman&#39;, serif" font-size="76" fill="#ffffff" letter-spacing="1">EF</text>
+  </g>
+  <text x="250" y="290" text-anchor="middle" font-family="Georgia, &#39;Times New Roman&#39;, serif" font-size="46" fill="#4a3355">Entrená con Flor</text>
+  <text x="250" y="325" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" letter-spacing="3.5" fill="#c98f3d">ENTRENAMIENTOS ONLINE</text>
+</svg>
