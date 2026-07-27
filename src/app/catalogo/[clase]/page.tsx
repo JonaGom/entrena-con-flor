@@ -4,7 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import AppHeader from "@/components/AppHeader";
 import Footer from "@/components/Footer";
 import MarkCompleteButton from "@/components/MarkCompleteButton";
-import { categories, demoClasses } from "@/data/content";
+import { categories, demoClasses, getClassVideoUrl } from "@/data/content";
 import { createClient } from "@/lib/supabase/server";
 import { isMembershipActive } from "@/lib/membership";
 import type { Profile } from "@/lib/supabase/types";
@@ -54,6 +54,7 @@ export default async function ClasePage({ params }: { params: Promise<{ clase: s
   const userLabel = profile?.full_name || user.email || "";
   const categoryTitle =
     categories.find((c) => c.slug === profile?.membership_category)?.title ?? "tu clase";
+  const videoUrl = getClassVideoUrl(item.slug, profile?.membership_category);
 
   return (
     <>
@@ -65,12 +66,26 @@ export default async function ClasePage({ params }: { params: Promise<{ clase: s
               ← Volver al catálogo
             </Link>
 
-            <div className="mt-4 aspect-video rounded-2xl bg-gradient-to-br from-accent-dark to-accent-mid flex flex-col items-center justify-center gap-3 text-white border border-white/10">
-              <div className="text-6xl">▶️</div>
-              <div className="text-sm text-white/70">
-                Espacio para el video real de {categoryTitle} — {item.title}
+            {videoUrl ? (
+              <div className="mt-4 aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black">
+                <video
+                  key={videoUrl}
+                  controls
+                  preload="metadata"
+                  className="w-full h-full"
+                  src={videoUrl}
+                >
+                  Tu navegador no puede reproducir este video.
+                </video>
               </div>
-            </div>
+            ) : (
+              <div className="mt-4 aspect-video rounded-2xl bg-gradient-to-br from-accent-dark to-accent-mid flex flex-col items-center justify-center gap-3 text-white border border-white/10">
+                <div className="text-6xl">▶️</div>
+                <div className="text-sm text-white/70">
+                  Espacio para el video real de {categoryTitle} — {item.title}
+                </div>
+              </div>
+            )}
 
             <div className="mt-7 bg-white rounded-2xl p-7 border border-accent-light shadow-[0_10px_30px_rgba(62,25,56,0.06)]">
               <div className="text-[12px] font-bold text-accent uppercase tracking-[1px] mb-2">

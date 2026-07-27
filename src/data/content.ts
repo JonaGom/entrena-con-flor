@@ -344,6 +344,51 @@ export type DemoClass = {
   completed: boolean;
 };
 
+// Videos reales de prueba subidos por Flor al bucket público "class-videos"
+// de Supabase Storage (julio 2026). Nombre de archivo: "<disciplina>-<slug
+// de la clase>.mp4", ej. "pilates-semana1-dia-a.mp4". El área privada
+// (/catalogo) es una sola lista genérica de clases (demoClasses, sin
+// discriminar disciplina) que se les arma a partir de la disciplina de la
+// membresía de cada alumna — por eso el video se resuelve combinando
+// profile.membership_category + el slug de la clase (ver
+// getClassVideoUrl más abajo), en vez de guardarse directo en DemoClass.
+const AVAILABLE_CLASS_VIDEOS = new Set([
+  "pilates-semana1-dia-a",
+  "pilates-semana1-dia-b",
+  "pilates-semana2-dia-a",
+  "pilates-semana2-dia-b",
+  "pilates-semana3-dia-a",
+  "pilates-semana3-dia-b",
+  "gap-semana1-dia-a",
+  "gap-semana1-dia-b",
+  "gap-semana2-dia-a",
+]);
+
+// "pilates-mat" -> "pilates" para matchear el prefijo usado en los nombres
+// de archivo. Si la membresía es Full Access (sin categoría única), o no
+// hay categoría cargada todavía, usamos "pilates" como default — mismo
+// criterio que ya usa /catalogo para elegir la miniatura.
+function categoryToVideoPrefix(categorySlug: string | null | undefined): string {
+  if (categorySlug === "gap") return "gap";
+  return "pilates";
+}
+
+// Devuelve la URL pública del video de Supabase Storage para esta clase +
+// categoría, o null si todavía no hay un video real cargado (en ese caso
+// la página muestra el cartel de "video próximamente").
+export function getClassVideoUrl(
+  classSlug: string,
+  categorySlug: string | null | undefined
+): string | null {
+  const key = `${categoryToVideoPrefix(categorySlug)}-${classSlug}`;
+  if (!AVAILABLE_CLASS_VIDEOS.has(key)) return null;
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (!supabaseUrl) return null;
+
+  return `${supabaseUrl}/storage/v1/object/public/class-videos/${key}.mp4`;
+}
+
 export const demoClasses: DemoClass[] = [
   {
     slug: "semana1-dia-a",
