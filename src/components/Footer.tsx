@@ -1,8 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { brand } from "@/data/content";
+import { brand, contact } from "@/data/content";
 
 export default function Footer() {
+  const whatsappHref = `https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent(
+    contact.whatsappMessage
+  )}`;
+
   return (
     <footer id="faq" className="bg-[#1e0e1b] text-white/70 px-6 pt-12 pb-6">
       <div className="max-w-6xl mx-auto flex flex-wrap justify-between gap-6 pb-6 border-b border-white/10">
@@ -39,13 +43,26 @@ export default function Footer() {
             Cancelar suscripción
           </a>
         </div>
-        <div id="contacto" className="scroll-mt-24">
+        <div>
           <h4 className="text-white text-sm mb-3">Contacto</h4>
-          <a href="#" className="block text-white/65 text-[13.5px] mb-2">
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block text-white/65 text-[13.5px] mb-2"
+          >
             WhatsApp
           </a>
-          <a href="#" className="block text-white/65 text-[13.5px] mb-2">
+          <a
+            href={contact.instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block text-white/65 text-[13.5px] mb-2"
+          >
             Instagram
+          </a>
+          <a href={`mailto:${contact.email}`} className="block text-white/65 text-[13.5px] mb-2">
+            Email
           </a>
         </div>
       </div>

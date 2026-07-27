@@ -5,6 +5,7 @@ import Categories from "@/components/Categories";
 import WhyTrain from "@/components/WhyTrain";
 import Testimonials from "@/components/Testimonials";
 import About from "@/components/About";
+import Contacto from "@/components/Contacto";
 import CtaBanner from "@/components/CtaBanner";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
@@ -27,6 +28,9 @@ export default function Home() {
         </Reveal>
         <Reveal>
           <About />
+        </Reveal>
+        <Reveal>
+          <Contacto />
         </Reveal>
         <Reveal>
           <CtaBanner />

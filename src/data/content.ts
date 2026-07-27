@@ -6,6 +6,18 @@ export const brand = {
   name: "Entrená con Flor", // placeholder — reemplazar por el nombre de marca definitivo
 };
 
+// Datos de contacto — placeholder. Reemplazar por los reales de Flor:
+// - whatsappNumber: con código de país, sin "+" ni espacios (ej: 5491122223333).
+// - instagramHandle/instagramUrl: usuario real de Instagram.
+// - email: casilla real de contacto.
+export const contact = {
+  whatsappNumber: "5491100000000",
+  whatsappMessage: "¡Hola Flor! Quiero saber más sobre las clases 🙌",
+  instagramHandle: "@entrenaconflor",
+  instagramUrl: "https://instagram.com/entrenaconflor",
+  email: "hola@entrenaconflor.com",
+};
+
 export const heroStats = [
   { value: "+500", label: "alumnas entrenando" },
   { value: "120+", label: "clases en catálogo" },
