@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 export default async function IngresarPage({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string }>;
+  searchParams: Promise<{ next?: string; error?: string }>;
 }) {
-  const { next } = await searchParams;
+  const { next, error } = await searchParams;
 
   return (
     <>
@@ -24,6 +24,12 @@ export default async function IngresarPage({
             Bienvenida de nuevo
           </div>
           <h1 className="text-2xl font-extrabold mb-6 text-center">Iniciar sesión</h1>
+          {error === "confirmacion" && (
+            <p className="mb-5 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
+              El link de confirmación ya venció o ya se usó. Probá iniciar sesión directamente, o
+              creá la cuenta de nuevo si todavía no pudiste entrar.
+            </p>
+          )}
           <LoginForm next={next && next.startsWith("/") ? next : "/mi-cuenta"} />
         </div>
       </main>

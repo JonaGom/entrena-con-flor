@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 
 export type AuthActionState = {
@@ -52,11 +53,18 @@ export async function signUp(
     return { error: "La contraseña tiene que tener al menos 6 caracteres.", success: null };
   }
 
+  // Origin de la request (funciona tanto en localhost como en producción)
+  // para armar el link al que apunta el mail de confirmación.
+  const origin = (await headers()).get("origin") ?? "https://entrena-con-flor.netlify.app";
+
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { full_name: fullName || null } },
+    options: {
+      data: { full_name: fullName || null },
+      emailRedirectTo: `${origin}/auth/confirm?next=${encodeURIComponent("/mi-cuenta?bienvenida=1")}`,
+    },
   });
 
   if (error) {
