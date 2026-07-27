@@ -17,7 +17,9 @@ export const metadata: Metadata = {
 export default async function CatalogoPage() {
   const supabase = await createClient();
 
-  // Defensa en profundidad, además del proxy (src/proxy.ts).
+  // Este chequeo es la única protección de esta ruta por ahora: src/proxy.ts
+  // está deshabilitado temporalmente por incompatibilidad con el deploy de
+  // Netlify (ver docs-internal/proxy.ts.disabled-por-incompatibilidad-netlify).
   const {
     data: { user },
   } = await supabase.auth.getUser();

@@ -21,9 +21,9 @@ export default async function MiCuentaPage({
   const { bienvenida } = await searchParams;
   const supabase = await createClient();
 
-  // Defensa en profundidad: el proxy (src/proxy.ts) ya protege esta ruta,
-  // pero volvemos a chequear acá por si algún día cambia el matcher del
-  // proxy y deja de cubrir esta página.
+  // Este chequeo es la única protección de esta ruta por ahora: src/proxy.ts
+  // está deshabilitado temporalmente por incompatibilidad con el deploy de
+  // Netlify (ver docs-internal/proxy.ts.disabled-por-incompatibilidad-netlify).
   const {
     data: { user },
   } = await supabase.auth.getUser();

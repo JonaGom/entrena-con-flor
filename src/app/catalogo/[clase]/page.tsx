@@ -35,6 +35,9 @@ export default async function ClasePage({ params }: { params: Promise<{ clase: s
   const prevClass = index > 0 ? demoClasses[index - 1] : null;
   const nextClass = index < demoClasses.length - 1 ? demoClasses[index + 1] : null;
 
+  // Este chequeo es la única protección de esta ruta por ahora: src/proxy.ts
+  // está deshabilitado temporalmente por incompatibilidad con el deploy de
+  // Netlify (ver docs-internal/proxy.ts.disabled-por-incompatibilidad-netlify).
   const supabase = await createClient();
   const {
     data: { user },

@@ -1,3 +1,22 @@
+// DESHABILITADO desde 2026-07-27: @netlify/plugin-nextjs (última versión
+// disponible, 5.15.12) no logra bundlear esta versión de Next.js 16 como
+// edge function ("Bundling of edge function failed / Could not load edge
+// function at .../___netlify-edge-handler-node-middleware.js"). Es un
+// problema de la herramienta de deploy de Netlify, no del código: los docs
+// de Next.js (node_modules/next/dist/docs) confirman que Netlify todavía
+// está construyendo su adapter oficial para esta versión.
+//
+// Mientras tanto, cada página protegida (src/app/mi-cuenta, src/app/catalogo,
+// src/app/catalogo/[clase]) hace su propio chequeo de sesión server-side, así
+// que el bloqueo de acceso sigue funcionando sin este archivo. Lo que se
+// pierde: el refresco automático de la cookie de sesión en cada request, así
+// que una sesión inactiva puede vencer un poco antes de lo ideal. No es un
+// hueco de seguridad, es peor UX de sesión.
+//
+// Para reactivar: renombrar este archivo a src/proxy.ts y volver a probar
+// `netlify deploy --prod` — si Netlify ya sacó su adapter para Next 16 esto
+// debería andar de nuevo.
+
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/session";
 
