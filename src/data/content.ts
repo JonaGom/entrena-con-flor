@@ -389,6 +389,20 @@ export function getClassVideoUrl(
   return `${supabaseUrl}/storage/v1/object/public/class-videos/${key}.mp4`;
 }
 
+// Miniaturas reales (julio 2026): un frame sacado de cada video de prueba
+// con ffmpeg, guardado en public/images/thumbnails/classes/. Mismas claves
+// que AVAILABLE_CLASS_VIDEOS porque se generaron a partir de los mismos 9
+// videos — si el día de mañana un video no tiene miniatura propia (o
+// viceversa), separar esto en dos Sets.
+export function getClassThumbnail(
+  classSlug: string,
+  categorySlug: string | null | undefined
+): string | null {
+  const key = `${categoryToVideoPrefix(categorySlug)}-${classSlug}`;
+  if (!AVAILABLE_CLASS_VIDEOS.has(key)) return null;
+  return `/images/thumbnails/classes/${key}.jpg`;
+}
+
 export const demoClasses: DemoClass[] = [
   {
     slug: "semana1-dia-a",

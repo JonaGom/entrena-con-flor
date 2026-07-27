@@ -4,7 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import AppHeader from "@/components/AppHeader";
 import Footer from "@/components/Footer";
 import MarkCompleteButton from "@/components/MarkCompleteButton";
-import { categories, demoClasses, getClassVideoUrl } from "@/data/content";
+import { categories, demoClasses, getClassThumbnail, getClassVideoUrl } from "@/data/content";
 import { createClient } from "@/lib/supabase/server";
 import { isMembershipActive } from "@/lib/membership";
 import type { Profile } from "@/lib/supabase/types";
@@ -55,6 +55,7 @@ export default async function ClasePage({ params }: { params: Promise<{ clase: s
   const categoryTitle =
     categories.find((c) => c.slug === profile?.membership_category)?.title ?? "tu clase";
   const videoUrl = getClassVideoUrl(item.slug, profile?.membership_category);
+  const posterUrl = getClassThumbnail(item.slug, profile?.membership_category);
 
   return (
     <>
@@ -72,6 +73,7 @@ export default async function ClasePage({ params }: { params: Promise<{ clase: s
                   key={videoUrl}
                   controls
                   preload="metadata"
+                  poster={posterUrl ?? undefined}
                   className="w-full h-full"
                   src={videoUrl}
                 >

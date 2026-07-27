@@ -4,7 +4,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import AppHeader from "@/components/AppHeader";
 import Footer from "@/components/Footer";
-import { categories, demoClasses } from "@/data/content";
+import { categories, demoClasses, getClassThumbnail } from "@/data/content";
 import { createClient } from "@/lib/supabase/server";
 import { isMembershipActive, membershipLabel } from "@/lib/membership";
 import type { Profile } from "@/lib/supabase/types";
@@ -131,7 +131,10 @@ export default async function CatalogoPage() {
           <div className="max-w-6xl mx-auto">
             <h2 className="text-xl font-extrabold mb-5">Todas las clases del mes</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {demoClasses.map((clase) => (
+              {demoClasses.map((clase) => {
+                const classThumbnail = getClassThumbnail(clase.slug, profile?.membership_category);
+                const thumbnail = classThumbnail ?? studentCategory?.thumbnail;
+                return (
                 <Link
                   key={clase.slug}
                   href={`/catalogo/${clase.slug}`}
@@ -143,10 +146,10 @@ export default async function CatalogoPage() {
                   }
                 >
                   <div className="relative aspect-video rounded-xl overflow-hidden border border-accent-light mb-3.5">
-                    {studentCategory?.thumbnail ? (
+                    {thumbnail ? (
                       <Image
-                        src={studentCategory.thumbnail}
-                        alt={studentCategory.title}
+                        src={thumbnail}
+                        alt={studentCategory?.title ?? clase.title}
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         className="object-cover"
@@ -164,7 +167,8 @@ export default async function CatalogoPage() {
                   <h3 className="text-[15px] font-semibold mb-1.5 leading-snug">{clase.title}</h3>
                   <div className="text-xs text-muted">{clase.duration}</div>
                 </Link>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
