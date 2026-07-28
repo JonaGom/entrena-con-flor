@@ -81,18 +81,29 @@ export default function Header() {
   // desplegable se lea bien). En cualquier otra página queda siempre sólido.
   const glass = isHome && !menuOpen;
 
+  // Al scrollear hacia abajo el header no desaparece del todo: se "minimiza"
+  // a una línea fina (para que se note que ahí sigue el nav) y se puede
+  // tocar/clickear para expandirlo de nuevo sin tener que scrollear.
+  const minimized = hidden && !menuOpen;
+
   return (
     <>
       <header
+        onClick={() => minimized && setHidden(false)}
         className={
-          "fixed top-0 inset-x-0 z-50 border-b transition-[background-color,border-color,box-shadow,transform,backdrop-filter] duration-300 " +
+          "fixed top-0 inset-x-0 z-50 border-b overflow-hidden transition-[background-color,border-color,box-shadow,height] duration-300 " +
           (glass
             ? "bg-black/30 backdrop-blur-md border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
             : "bg-white/95 backdrop-blur-lg border-black/5 shadow-[0_8px_24px_rgba(62,25,56,0.08)]") +
           " " +
-          (hidden && !menuOpen ? "-translate-y-full" : "translate-y-0")
+          (minimized ? "cursor-pointer h-[6px]" : "h-[73px]")
         }
       >
+        <div
+          className={
+            "transition-opacity duration-150 " + (minimized ? "opacity-0 pointer-events-none" : "opacity-100")
+          }
+        >
         <div className={`relative max-w-6xl mx-auto flex items-center justify-between px-6 ${HEADER_HEIGHT}`}>
           <Link href="/" className="flex items-center" onClick={() => setMenuOpen(false)}>
             <Image
@@ -248,6 +259,7 @@ export default function Header() {
               )}
             </div>
           </nav>
+        </div>
         </div>
       </header>
 
