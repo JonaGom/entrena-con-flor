@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CtaBanner from "@/components/CtaBanner";
-import { categories } from "@/data/content";
-import { getIcon } from "@/lib/icon-map";
+import CategoryPhotoCard from "@/components/CategoryPhotoCard";
+import Reveal from "@/components/Reveal";
+import { categories, categoryPitches } from "@/data/content";
 
 export const metadata: Metadata = {
   title: "Membresía y precios — Elegí tu disciplina",
@@ -32,24 +32,19 @@ export default function MembresiaPage() {
         </section>
 
         <section className="px-6 py-14">
-          <div className="max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {categories.map((cat) => {
-              const CategoryIcon = getIcon(cat.icon);
+          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+            {categories.map((cat, i) => {
+              const pitch = categoryPitches.find((p) => p.slug === cat.slug);
+              if (!pitch) return null;
               return (
-                <Link
-                  key={cat.slug}
-                  href={`/membresia/${cat.slug}`}
-                  className="bg-white border border-accent-light rounded-2xl p-7 shadow-[0_10px_30px_rgba(62,25,56,0.06)] hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(62,25,56,0.12)] transition-all block"
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-[52px] h-[52px] rounded-2xl bg-accent-light flex items-center justify-center text-accent">
-                      <CategoryIcon className="w-6 h-6" strokeWidth={2} />
-                    </div>
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2">{cat.title}</h3>
-                  <p className="text-muted text-sm mb-3.5">{cat.description}</p>
-                  <span className="text-accent font-semibold text-sm">Ver membresías y precios →</span>
-                </Link>
+                <Reveal key={cat.slug} delay={i * 60}>
+                  <CategoryPhotoCard
+                    category={cat}
+                    pitch={pitch}
+                    href={`/membresia/${cat.slug}`}
+                    ctaLabel="Ver membresías y precios"
+                  />
+                </Reveal>
               );
             })}
           </div>
