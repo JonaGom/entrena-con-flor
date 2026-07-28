@@ -2,15 +2,15 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Benefits from "@/components/Benefits";
 import Categories from "@/components/Categories";
-import Testimonials from "@/components/Testimonials";
 import CtaBanner from "@/components/CtaBanner";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
 
 // "Sobre Flor" y "Contacto" pasaron a ser páginas propias (/sobre-flor,
 // /contacto) en vez de secciones del inicio — el link del menú abre esas
-// páginas en una pestaña nueva (ver Header.tsx). La sección "Por qué
-// entrenar" (WhyTrain) se sacó del inicio a pedido de Jonathan.
+// páginas en una pestaña nueva (ver Header.tsx). Las secciones "Por qué
+// entrenar" (WhyTrain) y "Lo que dicen" (Testimonials) se sacaron del
+// inicio a pedido de Jonathan.
 export default function Home() {
   return (
     <>
@@ -20,9 +20,6 @@ export default function Home() {
         <Benefits />
         <Reveal>
           <Categories />
-        </Reveal>
-        <Reveal>
-          <Testimonials />
         </Reveal>
         <Reveal>
           <CtaBanner />
