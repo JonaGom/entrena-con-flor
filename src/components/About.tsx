@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Award, GraduationCap, MapPin } from "lucide-react";
 
 export default function About() {
   return (
@@ -28,14 +29,17 @@ export default function About() {
             pilates mat, ritmos, funcional y spinning, y su enfoque de trabajo con las alumnas.
           </p>
           <div className="flex gap-2.5 flex-wrap mt-[18px]">
-            <span className="bg-white/10 border border-white/25 px-3.5 py-1.5 rounded-full text-[13px]">
-              🎓 Prof. de Educación Física
+            <span className="inline-flex items-center gap-1.5 bg-white/10 border border-white/25 px-3.5 py-1.5 rounded-full text-[13px]">
+              <GraduationCap className="w-3.5 h-3.5" strokeWidth={2} />
+              Prof. de Educación Física
             </span>
-            <span className="bg-white/10 border border-white/25 px-3.5 py-1.5 rounded-full text-[13px]">
-              🧘‍♀️ Instructora certificada
+            <span className="inline-flex items-center gap-1.5 bg-white/10 border border-white/25 px-3.5 py-1.5 rounded-full text-[13px]">
+              <Award className="w-3.5 h-3.5" strokeWidth={2} />
+              Instructora certificada
             </span>
-            <span className="bg-white/10 border border-white/25 px-3.5 py-1.5 rounded-full text-[13px]">
-              📍 Argentina
+            <span className="inline-flex items-center gap-1.5 bg-white/10 border border-white/25 px-3.5 py-1.5 rounded-full text-[13px]">
+              <MapPin className="w-3.5 h-3.5" strokeWidth={2} />
+              Argentina
             </span>
           </div>
         </div>

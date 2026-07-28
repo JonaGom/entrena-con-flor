@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import { Lightbulb, Play } from "lucide-react";
 import AppHeader from "@/components/AppHeader";
 import Footer from "@/components/Footer";
 import MarkCompleteButton from "@/components/MarkCompleteButton";
@@ -82,7 +83,7 @@ export default async function ClasePage({ params }: { params: Promise<{ clase: s
               </div>
             ) : (
               <div className="mt-4 aspect-video rounded-2xl bg-gradient-to-br from-accent-dark to-accent-mid flex flex-col items-center justify-center gap-3 text-white border border-white/10">
-                <div className="text-6xl">▶️</div>
+                <Play className="w-14 h-14" fill="currentColor" strokeWidth={0} />
                 <div className="text-sm text-white/70">
                   Espacio para el video real de {categoryTitle} — {item.title}
                 </div>
@@ -108,7 +109,7 @@ export default async function ClasePage({ params }: { params: Promise<{ clase: s
               </div>
 
               <div className="mb-6 bg-accent-light rounded-xl p-4 text-[13px] text-accent-dark flex gap-2.5">
-                <span>💡</span>
+                <Lightbulb className="w-4 h-4 shrink-0 mt-0.5" strokeWidth={2} />
                 <div>
                   <b>Tip de Flor:</b> {item.difficultyTip}
                 </div>

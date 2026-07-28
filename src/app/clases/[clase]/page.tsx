@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Lightbulb, Lock } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
 import { catalogClasses, categories, getMembershipCards } from "@/data/content";
+import { getIcon } from "@/lib/icon-map";
 
 export async function generateStaticParams() {
   return catalogClasses.map((c) => ({ clase: c.slug }));
@@ -34,6 +36,7 @@ export default async function ClaseDetallePage({
   if (index === -1) notFound();
   const item = catalogClasses[index];
   const category = categories.find((c) => c.slug === item.category);
+  const CategoryIcon = category ? getIcon(category.icon) : null;
   const prevClass = index > 0 ? catalogClasses[index - 1] : null;
   const nextClass = index < catalogClasses.length - 1 ? catalogClasses[index + 1] : null;
   const membershipCards = getMembershipCards(item.category);
@@ -54,8 +57,8 @@ export default async function ClaseDetallePage({
                     imagen real todavía (la clase se desbloquea con una membresía). */}
                 <div className="relative aspect-video rounded-2xl bg-[radial-gradient(120%_140%_at_15%_0%,var(--brand-accent-mid)_0%,var(--brand-accent-dark)_60%,#2a1027_100%)] flex flex-col items-center justify-center gap-3 text-white border border-white/10 overflow-hidden">
                   <div className="pointer-events-none absolute inset-0 opacity-[0.08] [background-image:radial-gradient(1px_1px_at_20px_20px,white_1px,transparent_0)] [background-size:34px_34px]" />
-                  <span className="flex items-center justify-center w-16 h-16 rounded-full bg-white/12 border border-white/25 backdrop-blur-md text-2xl">
-                    🔒
+                  <span className="flex items-center justify-center w-16 h-16 rounded-full bg-white/12 border border-white/25 backdrop-blur-md">
+                    <Lock className="w-7 h-7" strokeWidth={2} />
                   </span>
                   <div className="text-sm font-semibold text-white/85">Contenido bloqueado</div>
                   <div className="text-xs text-white/60 px-6 text-center">
@@ -68,8 +71,9 @@ export default async function ClaseDetallePage({
                     <span className="text-[12px] font-bold text-accent uppercase tracking-[1px]">
                       {item.weekLabel} · {item.dayLabel}
                     </span>
-                    <span className="text-[12px] font-semibold text-muted">
-                      · {category?.icon} {category?.title}
+                    <span className="inline-flex items-center gap-1 text-[12px] font-semibold text-muted">
+                      · {CategoryIcon && <CategoryIcon className="w-3 h-3" strokeWidth={2.5} />}
+                      {category?.title}
                     </span>
                   </div>
                   <h1 className="text-2xl font-extrabold mb-3">{item.title}</h1>
@@ -87,7 +91,7 @@ export default async function ClaseDetallePage({
                   </div>
 
                   <div className="bg-accent-light rounded-xl p-4 text-[13px] text-accent-dark flex gap-2.5">
-                    <span>💡</span>
+                    <Lightbulb className="w-4 h-4 shrink-0 mt-0.5" strokeWidth={2} />
                     <div>
                       <b>Tip de Flor:</b> {item.difficultyTip}
                     </div>

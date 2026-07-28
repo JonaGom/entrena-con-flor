@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import Link from "next/link";
+import { MailCheck } from "lucide-react";
 import { signUp, type AuthActionState } from "@/lib/auth-actions";
 
 const INITIAL_STATE: AuthActionState = { error: null, success: null };
@@ -12,7 +13,9 @@ export default function SignUpForm() {
   if (state?.success) {
     return (
       <div className="text-center">
-        <div className="text-4xl mb-4">📬</div>
+        <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-accent-light flex items-center justify-center text-accent">
+          <MailCheck className="w-7 h-7" strokeWidth={2} />
+        </div>
         <p className="text-[15px] text-text mb-6">{state.success}</p>
         <Link
           href="/ingresar"

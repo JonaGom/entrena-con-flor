@@ -44,7 +44,7 @@ export default async function MiCuentaPage({
         <div className="max-w-2xl mx-auto">
           {bienvenida === "1" && (
             <div className="mb-6 rounded-xl bg-white border border-accent-light px-5 py-4 text-sm text-accent-dark">
-              🎉 ¡Cuenta creada! Escribile a Flor para activar tu membresía mientras conectamos el
+              ¡Cuenta creada! Escribile a Flor para activar tu membresía mientras conectamos el
               pago online.
             </div>
           )}
@@ -53,7 +53,7 @@ export default async function MiCuentaPage({
             Mi cuenta
           </div>
           <h1 className="text-[28px] font-extrabold mb-8">
-            Hola{profile?.full_name ? `, ${profile.full_name}` : ""} 👋
+            Hola{profile?.full_name ? `, ${profile.full_name}` : ""}
           </h1>
 
           <div className="bg-white rounded-2xl p-6 border border-accent-light shadow-[0_10px_30px_rgba(62,25,56,0.06)] mb-6">

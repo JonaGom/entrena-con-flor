@@ -12,16 +12,16 @@ export const brand = {
 // - email: casilla real de contacto.
 export const contact = {
   whatsappNumber: "5491100000000",
-  whatsappMessage: "¡Hola Flor! Quiero saber más sobre las clases 🙌",
+  whatsappMessage: "¡Hola Flor! Quiero saber más sobre las clases",
   instagramHandle: "@entrenaconflor",
   instagramUrl: "https://instagram.com/entrenaconflor",
   email: "hola@entrenaconflor.com",
 };
 
-export const heroStats = [
+export const heroStats: { value: string; label: string; icon?: "star" }[] = [
   { value: "+500", label: "alumnas entrenando" },
   { value: "120+", label: "clases en catálogo" },
-  { value: "4.9★", label: "valoración promedio" },
+  { value: "4.9", label: "valoración promedio", icon: "star" },
 ];
 
 // Copy del Hero (actualizado julio 2026): apunta más a la transformación y
@@ -30,9 +30,9 @@ export const heroStats = [
 export const heroCopy = {
   title: "Transformá tu cuerpo sin horarios y sin gimnasio.",
   subtitle: "Pilates y GAP para entrenar a tu ritmo, desde cualquier lugar.",
-  highlight: "✨ Nuevas rutinas todas las semanas.",
+  highlight: "Nuevas rutinas todas las semanas.",
   primaryCta: "Empezar ahora",
-  secondaryCta: "▶ Mirá una clase gratis",
+  secondaryCta: "Mirá una clase gratis",
   quote:
     "Quiero que entrenar deje de ser una obligación y se convierta en el mejor momento de tu día.",
   quoteAuthor: "Flor",
@@ -48,17 +48,17 @@ export type PlatformBenefit = {
 // valor de la plataforma en pocos segundos (idea de Jonathan, julio 2026).
 export const platformBenefits: PlatformBenefit[] = [
   {
-    icon: "🎥",
+    icon: "video",
     title: "Clases disponibles 24/7",
     text: "Entrená cuando te quede cómodo, sin depender del horario de una clase.",
   },
   {
-    icon: "📈",
+    icon: "trending-up",
     title: "Rutinas nuevas cada semana",
     text: "El catálogo se actualiza todo el tiempo, así siempre sumás variedad.",
   },
   {
-    icon: "🏡",
+    icon: "home",
     title: "Entrená desde donde quieras",
     text: "En tu casa, en un patio o de viaje — solo hace falta una colchoneta.",
   },
@@ -82,22 +82,22 @@ export type TrainingBenefit = {
 
 export const trainingBenefits: TrainingBenefit[] = [
   {
-    icon: "🧠",
+    icon: "brain",
     title: "La mente se despeja",
     text: "Ese ratito sin notificaciones ni pendientes, donde solo importa tu respiración y el próximo movimiento.",
   },
   {
-    icon: "🔋",
+    icon: "zap",
     title: "Más energía en el día a día",
     text: "No entrenás para \"gastar calorías\": entrenás para llegar mejor al resto del día.",
   },
   {
-    icon: "💪",
+    icon: "dumbbell",
     title: "Te sentís más fuerte",
     text: "Y no hablamos solo del cuerpo — la constancia se nota en todo lo demás que hacés.",
   },
   {
-    icon: "🤝",
+    icon: "users",
     title: "No estás sola",
     text: "Aunque entrenes desde tu casa, hay una comunidad de alumnas recorriendo el mismo camino.",
   },
@@ -124,14 +124,14 @@ export type Category = {
 export const categories: Category[] = [
   {
     slug: "pilates-mat",
-    icon: "🧘‍♀️",
+    icon: "activity",
     title: "Pilates Mat",
     description: "Control, postura y fuerza profunda con ejercicios en colchoneta.",
     thumbnail: "/images/thumbnails/pilates-mat.jpg",
   },
   {
     slug: "gap",
-    icon: "🔥",
+    icon: "flame",
     title: "GAP",
     description: "Rutinas enfocadas en glúteos, abdomen y piernas.",
     thumbnail: "/images/thumbnails/gap.jpg",

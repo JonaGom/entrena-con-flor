@@ -3,9 +3,12 @@
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Video } from "lucide-react";
 import { categories, type CatalogClass, type Category } from "@/data/content";
+import { getIcon } from "@/lib/icon-map";
 
 function ClassCard({ clase, category }: { clase: CatalogClass; category?: Category }) {
+  const CategoryIcon = category ? getIcon(category.icon) : null;
   return (
     <Link
       href={`/clases/${clase.slug}`}
@@ -21,15 +24,16 @@ function ClassCard({ clase, category }: { clase: CatalogClass; category?: Catego
             className="object-cover"
           />
         ) : (
-          <div className="w-full h-full bg-[radial-gradient(120%_140%_at_15%_0%,var(--brand-accent-mid)_0%,var(--brand-accent-dark)_100%)] flex items-center justify-center text-4xl">
-            🎥
+          <div className="w-full h-full bg-[radial-gradient(120%_140%_at_15%_0%,var(--brand-accent-mid)_0%,var(--brand-accent-dark)_100%)] flex items-center justify-center text-white/80">
+            <Video className="w-8 h-8" strokeWidth={1.5} />
           </div>
         )}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-black/10" />
 
         {/* Etiqueta de enfoque, arriba a la izquierda */}
         <span className="absolute top-2.5 left-2.5 inline-flex items-center gap-1 rounded-md bg-black/45 backdrop-blur-sm px-2 py-1 text-[10.5px] font-bold uppercase tracking-[.4px] text-white">
-          {category?.icon} {clase.tag}
+          {CategoryIcon && <CategoryIcon className="w-3 h-3" strokeWidth={2.5} />}
+          {clase.tag}
         </span>
 
         {/* Duración, abajo a la derecha */}
@@ -49,6 +53,7 @@ function ClassCard({ clase, category }: { clase: CatalogClass; category?: Catego
 
 function CategoryRow({ category, classes }: { category: Category; classes: CatalogClass[] }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const CategoryIcon = getIcon(category.icon);
 
   const scrollBy = (dir: 1 | -1) => {
     const el = scrollerRef.current;
@@ -62,7 +67,7 @@ function CategoryRow({ category, classes }: { category: Category; classes: Catal
     <div className="mb-12 last:mb-0">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-extrabold flex items-center gap-2">
-          <span>{category.icon}</span>
+          <CategoryIcon className="w-5 h-5 text-accent" strokeWidth={2} />
           {category.title}
         </h2>
         <Link
@@ -122,11 +127,12 @@ export default function ClassCatalogGrid({
   // de scroll horizontal).
   if (filterCategory) {
     const filtered = classes.filter((c) => c.category === filterCategory.slug);
+    const FilterIcon = getIcon(filterCategory.icon);
     return (
       <div>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-extrabold flex items-center gap-2">
-            <span>{filterCategory.icon}</span>
+            <FilterIcon className="w-5 h-5 text-accent" strokeWidth={2} />
             {filterCategory.title}
           </h2>
           <Link

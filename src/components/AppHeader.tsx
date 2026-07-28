@@ -21,7 +21,7 @@ export default function AppHeader({ userLabel }: { userLabel: string }) {
             href="/mi-cuenta"
             className="hidden sm:inline text-sm text-muted hover:text-accent transition-colors"
           >
-            Hola, <b className="text-text">{userLabel}</b> 👋
+            Hola, <b className="text-text">{userLabel}</b>
           </Link>
           <LogoutButton className="rounded-full border-[1.5px] border-accent-dark text-accent-dark px-5 py-2.5 text-sm font-semibold hover:-translate-y-px transition-transform hover:bg-accent-dark hover:text-white" />
         </div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { CheckCircle2, Lock, Play } from "lucide-react";
 import AppHeader from "@/components/AppHeader";
 import Footer from "@/components/Footer";
 import { categories, demoClasses, getClassThumbnail } from "@/data/content";
@@ -39,7 +40,9 @@ export default async function CatalogoPage() {
         <AppHeader userLabel={userLabel} />
         <main className="bg-accent-light/40 min-h-screen flex items-center">
           <div className="max-w-lg mx-auto text-center px-6 py-24">
-            <div className="text-5xl mb-5">🔒</div>
+            <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-accent-light flex items-center justify-center text-accent">
+              <Lock className="w-8 h-8" strokeWidth={2} />
+            </div>
             <h1 className="text-2xl font-extrabold mb-3">Todavía no tenés una membresía activa</h1>
             <p className="text-muted text-[15px] mb-8">
               Tu cuenta está creada, pero para ver el catálogo hace falta una membresía activa.
@@ -77,7 +80,7 @@ export default async function CatalogoPage() {
             <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
               <div>
                 <h1 className="text-[30px] font-extrabold mb-1.5">
-                  Hola {userLabel}, ¡vamos con otra semana! 👋
+                  Hola {userLabel}, ¡vamos con otra semana!
                 </h1>
                 <p className="text-muted text-[15px]">
                   Membresía de <b className="text-accent-dark">{membershipLabel(profile)}</b> —
@@ -119,9 +122,10 @@ export default async function CatalogoPage() {
               </div>
               <Link
                 href={`/catalogo/${nextClass.slug}`}
-                className="shrink-0 rounded-full bg-gold text-[#3a2400] px-7 py-3.5 text-base font-semibold shadow-[0_6px_16px_rgba(232,163,61,0.35)] hover:-translate-y-px transition-transform whitespace-nowrap"
+                className="inline-flex items-center gap-2 shrink-0 rounded-full bg-gold text-[#3a2400] px-7 py-3.5 text-base font-semibold shadow-[0_6px_16px_rgba(232,163,61,0.35)] hover:-translate-y-px transition-transform whitespace-nowrap"
               >
-                ▶ Ver clase
+                <Play className="w-4 h-4" fill="currentColor" strokeWidth={0} />
+                Ver clase
               </Link>
             </div>
           </div>
@@ -157,8 +161,12 @@ export default async function CatalogoPage() {
                     ) : (
                       <div className="w-full h-full bg-gradient-to-br from-accent-light to-white" />
                     )}
-                    <div className="absolute inset-0 bg-black/15 flex items-center justify-center text-3xl">
-                      {clase.completed ? "✅" : "▶️"}
+                    <div className="absolute inset-0 bg-black/15 flex items-center justify-center text-white">
+                      {clase.completed ? (
+                        <CheckCircle2 className="w-8 h-8" strokeWidth={2} />
+                      ) : (
+                        <Play className="w-8 h-8" fill="currentColor" strokeWidth={0} />
+                      )}
                     </div>
                   </div>
                   <div className="text-[11px] font-bold text-accent uppercase tracking-[.5px] mb-1">

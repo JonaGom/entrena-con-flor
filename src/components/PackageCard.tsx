@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Check } from "lucide-react";
 import { Package } from "@/data/content";
 
 export default function PackageCard({ pkg, ctaHref }: { pkg: Package; ctaHref: string }) {
@@ -25,7 +26,7 @@ export default function PackageCard({ pkg, ctaHref }: { pkg: Package; ctaHref: s
             key={feature}
             className={"py-1.5 text-sm flex gap-2 " + (i !== 0 ? "border-t border-[#f1e8ee]" : "")}
           >
-            <span className="text-accent font-bold">✓</span>
+            <Check className="w-4 h-4 shrink-0 mt-0.5 text-accent" strokeWidth={2.5} />
             {feature}
           </li>
         ))}

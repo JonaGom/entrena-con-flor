@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Check } from "lucide-react";
 
 // Botón interactivo de la vista previa del reproductor. No hay backend
 // conectado todavía, así que el estado es solo visual (se reinicia al
@@ -16,9 +17,10 @@ export default function MarkCompleteButton({ initialCompleted }: { initialComple
           onClick={() => setCompleted(false)}
           className="rounded-full bg-[#E4F3EA] text-[#3F8F5F] px-6 py-3 text-sm font-semibold flex items-center gap-2"
         >
-          ✓ Clase completada
+          <Check className="w-4 h-4" strokeWidth={2.5} />
+          Clase completada
         </button>
-        <span className="text-xs text-muted">¡Bien ahí! 🎉</span>
+        <span className="text-xs text-muted">¡Bien ahí!</span>
       </div>
     );
   }

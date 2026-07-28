@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Play, Star } from "lucide-react";
 import { heroCopy, heroStats } from "@/data/content";
 
 export default function Hero() {
@@ -59,8 +60,9 @@ export default function Hero() {
             </Link>
             <Link
               href="/clases"
-              className="rounded-full border-[1.5px] border-white/50 text-white px-8 py-4 text-base font-semibold backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:border-white/80"
+              className="inline-flex items-center gap-2 rounded-full border-[1.5px] border-white/50 text-white px-8 py-4 text-base font-semibold backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:border-white/80"
             >
+              <Play className="w-4 h-4" fill="currentColor" strokeWidth={0} />
               {heroCopy.secondaryCta}
             </Link>
           </div>
@@ -77,7 +79,12 @@ export default function Hero() {
           <div className="animate-hero-stats flex gap-8 flex-wrap">
             {heroStats.map((stat) => (
               <div key={stat.label}>
-                <b className="block text-xl text-white">{stat.value}</b>
+                <b className="flex items-center gap-1 text-xl text-white">
+                  {stat.value}
+                  {stat.icon === "star" && (
+                    <Star className="w-4 h-4 text-gold" fill="currentColor" strokeWidth={0} />
+                  )}
+                </b>
                 <span className="text-[13px] text-white/70">{stat.label}</span>
               </div>
             ))}
