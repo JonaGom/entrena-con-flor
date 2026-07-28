@@ -53,16 +53,16 @@ export default function Hero() {
 
           <div className="animate-hero-buttons flex gap-3.5 flex-wrap mb-7">
             <Link
-              href="/membresia"
-              className="rounded-full bg-gold text-[#3a2400] px-8 py-4 text-base font-semibold shadow-[0_10px_26px_rgba(232,163,61,0.35)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(232,163,61,0.45)] hover:bg-[#f0b04f]"
+              href="/clases"
+              className="inline-flex items-center gap-2 rounded-full bg-gold text-[#3a2400] px-8 py-4 text-base font-semibold shadow-[0_10px_26px_rgba(232,163,61,0.35)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(232,163,61,0.45)] hover:bg-[#f0b04f]"
             >
+              <Play className="w-4 h-4" fill="currentColor" strokeWidth={0} />
               {heroCopy.primaryCta}
             </Link>
             <Link
-              href="/clases"
-              className="inline-flex items-center gap-2 rounded-full border-[1.5px] border-white/50 text-white px-8 py-4 text-base font-semibold backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:border-white/80"
+              href="/membresia"
+              className="rounded-full border-[1.5px] border-white/50 text-white px-8 py-4 text-base font-semibold backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:border-white/80"
             >
-              <Play className="w-4 h-4" fill="currentColor" strokeWidth={0} />
               {heroCopy.secondaryCta}
             </Link>
           </div>

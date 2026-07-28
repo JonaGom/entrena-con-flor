@@ -6,12 +6,9 @@ export const brand = {
   name: "Entrená con Flor", // placeholder — reemplazar por el nombre de marca definitivo
 };
 
-// Datos de contacto — placeholder. Reemplazar por los reales de Flor:
-// - whatsappNumber: con código de país, sin "+" ni espacios (ej: 5491122223333).
-// - instagramHandle/instagramUrl: usuario real de Instagram.
-// - email: casilla real de contacto.
+// Datos de contacto reales (actualizado julio 2026).
 export const contact = {
-  whatsappNumber: "5491100000000",
+  whatsappNumber: "5491132480051",
   whatsappMessage: "¡Hola Flor! Quiero saber más sobre las clases",
   instagramHandle: "@entrenaconflor",
   instagramUrl: "https://instagram.com/entrenaconflor",
@@ -27,12 +24,20 @@ export const heroStats: { value: string; label: string; icon?: "star" }[] = [
 // Copy del Hero (actualizado julio 2026): apunta más a la transformación y
 // la emoción que a listar las disciplinas en el título — las disciplinas
 // quedan en el subtítulo. Pensado para conversión, no para describir.
+//
+// CTA unificado (julio 2026): "Probar una clase gratis" es la acción
+// principal en todo el sitio (Hero, banner de cierre) — antes había varios
+// textos de botón distintos compitiendo entre sí. El botón secundario del
+// Hero lleva a membresías/precios para quien ya viene decidido a comprar.
+// El pill debajo del subtítulo pasó a mostrar el precio de entrada en vez
+// de repetir el mensaje de "rutinas nuevas" (que ya está en Beneficios y en
+// el banner de cierre).
 export const heroCopy = {
   title: "Transformá tu cuerpo sin horarios y sin gimnasio.",
   subtitle: "Pilates y GAP para entrenar a tu ritmo, desde cualquier lugar.",
-  highlight: "Nuevas rutinas todas las semanas.",
-  primaryCta: "Empezar ahora",
-  secondaryCta: "Mirá una clase gratis",
+  highlight: "Membresías desde $24.900/mes.",
+  primaryCta: "Probar una clase gratis",
+  secondaryCta: "Ver membresías",
   quote:
     "Quiero que entrenar deje de ser una obligación y se convierta en el mejor momento de tu día.",
   quoteAuthor: "Flor",
@@ -258,7 +263,7 @@ export const categoryDetails: CategoryDetail[] = [
 export type Package = {
   slug: string;
   name: string;
-  priceLabel: string; // placeholder hasta definir precio final en ARS
+  priceLabel: string;
   featured?: boolean;
   features: string[];
 };
@@ -297,19 +302,19 @@ export const membershipPlans: MembershipPlan[] = [
     slug: "1-mes-una-disciplina",
     scope: "single",
     durationLabel: "1 mes de acceso",
-    priceLabel: "$X.XXX",
+    priceLabel: "$24.900",
   },
   {
     slug: "1-mes-full-access",
     scope: "full",
     durationLabel: "1 mes de acceso",
-    priceLabel: "$X.XXX",
+    priceLabel: "$29.900",
   },
   {
     slug: "3-meses-full-access",
     scope: "full",
     durationLabel: "3 meses de acceso",
-    priceLabel: "$X.XXX",
+    priceLabel: "$59.000",
     savingsLabel: "Ahorrás vs. pagar mes a mes",
     featured: true,
   },
@@ -375,9 +380,9 @@ export const membershipAxes: MembershipAxis[] = [
   },
   {
     axis: "Precio",
-    single: "$X.XXX",
-    full1: "$X.XXX",
-    full3: "$X.XXX (ahorrás vs. pagar mes a mes)",
+    single: "$24.900",
+    full1: "$29.900",
+    full3: "$59.000 (ahorrás vs. pagar mes a mes)",
   },
 ];
 

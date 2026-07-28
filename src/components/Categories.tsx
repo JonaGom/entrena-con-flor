@@ -6,6 +6,9 @@ import { getIcon } from "@/lib/icon-map";
 import SectionHead from "./SectionHead";
 import Reveal from "./Reveal";
 
+const FlowerIcon = getIcon("flower");
+const FlameIcon = getIcon("flame");
+
 export default function Categories() {
   return (
     <section id="servicios" className="px-6 pt-8 pb-6">
@@ -70,10 +73,7 @@ export default function Categories() {
         <Reveal>
           <div className="flex items-center gap-4 md:gap-6 mb-8">
             <div className="hidden sm:flex shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-full bg-white items-center justify-center text-accent shadow-[0_10px_24px_rgba(62,25,56,0.12)]">
-              {(() => {
-                const Flower = getIcon("flower");
-                return <Flower className="w-7 h-7 md:w-8 md:h-8" strokeWidth={1.75} />;
-              })()}
+              <FlowerIcon className="w-7 h-7 md:w-8 md:h-8" strokeWidth={1.75} />
             </div>
 
             <div className="flex-1 rounded-3xl bg-accent-light/60 border border-accent-light p-6 md:p-8">
@@ -113,10 +113,7 @@ export default function Categories() {
             </div>
 
             <div className="hidden sm:flex shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-full bg-white items-center justify-center text-[#c9622e] shadow-[0_10px_24px_rgba(62,25,56,0.12)]">
-              {(() => {
-                const Flame = getIcon("flame");
-                return <Flame className="w-7 h-7 md:w-8 md:h-8" strokeWidth={1.75} />;
-              })()}
+              <FlameIcon className="w-7 h-7 md:w-8 md:h-8" strokeWidth={1.75} />
             </div>
           </div>
         </Reveal>
@@ -132,7 +129,7 @@ export default function Categories() {
                 </div>
                 <h3 className="text-2xl md:text-[26px] font-extrabold mb-1.5">¿No podés decidir?</h3>
                 <p className="text-white/80 text-[14.5px] max-w-md">
-                  Con Full Access tenés Pilates Mat + GAP y todas las rutinas nuevas cada semana.
+                  Con Full Access tenés Pilates Mat + GAP juntos, en un solo plan.
                 </p>
               </div>
 

@@ -18,8 +18,7 @@ export default function PackageCard({ pkg, ctaHref }: { pkg: Package; ctaHref: s
         </div>
       )}
       <h3 className="mt-1.5 text-xl font-semibold">{pkg.name}</h3>
-      <div className="text-[32px] font-extrabold text-accent-dark mt-2.5">{pkg.priceLabel}</div>
-      <div className="text-xs text-muted mb-4.5">Precio de ejemplo a definir</div>
+      <div className="text-[32px] font-extrabold text-accent-dark mt-2.5 mb-4.5">{pkg.priceLabel}</div>
       <ul className="mb-6">
         {pkg.features.map((feature, i) => (
           <li

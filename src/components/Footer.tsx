@@ -72,7 +72,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="max-w-6xl mx-auto text-[12.5px] text-white/45 text-center mt-[18px]">
-        Mockup de ejemplo — © 2026. Nombre, marca y contenido a definir.
+        © {new Date().getFullYear()} {brand.name}. Todos los derechos reservados.
       </div>
     </footer>
   );
