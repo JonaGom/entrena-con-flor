@@ -7,6 +7,7 @@ import CtaBanner from "@/components/CtaBanner";
 import PackageCard from "@/components/PackageCard";
 import PlanAxesTable from "@/components/PlanAxesTable";
 import { categories, getMembershipCards } from "@/data/content";
+import { getIcon } from "@/lib/icon-map";
 
 export async function generateStaticParams() {
   return categories.map((cat) => ({ categoria: cat.slug }));
@@ -40,6 +41,7 @@ export default async function CategoriaMembresiaPage({
   const { categoria } = await params;
   const category = categories.find((c) => c.slug === categoria);
   if (!category) notFound();
+  const CategoryIcon = getIcon(category.icon);
 
   if (category.comingSoon) {
     const activeCategories = categories.filter((c) => !c.comingSoon);
@@ -49,7 +51,9 @@ export default async function CategoriaMembresiaPage({
         <main>
           <section className="px-6 pt-20 pb-24 text-center">
             <div className="max-w-xl mx-auto">
-              <div className="text-5xl mb-5">{category.icon}</div>
+              <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-accent-light flex items-center justify-center text-accent">
+                <CategoryIcon className="w-8 h-8" strokeWidth={2} />
+              </div>
               <div className="text-accent font-bold text-[13px] tracking-[1.2px] uppercase mb-2.5">
                 Próximamente
               </div>
@@ -91,8 +95,8 @@ export default async function CategoriaMembresiaPage({
             <div className="text-accent font-bold text-[13px] tracking-[1.2px] uppercase mb-2.5">
               Membresía · {category.title}
             </div>
-            <h1 className="text-[34px] font-extrabold mb-3">
-              <span className="text-3xl align-middle mr-2">{category.icon}</span>
+            <h1 className="text-[34px] font-extrabold mb-3 flex items-center justify-center gap-2.5">
+              <CategoryIcon className="w-7 h-7 text-accent" strokeWidth={2} />
               Membresías de {category.title}
             </h1>
             <p className="text-muted text-base">

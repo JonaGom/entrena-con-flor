@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Category, CategoryDetail } from "@/data/content";
+import { getIcon } from "@/lib/icon-map";
 
 export default function CategoryDetailBlock({
   category,
@@ -10,14 +11,15 @@ export default function CategoryDetailBlock({
   detail: CategoryDetail;
   reversed?: boolean;
 }) {
+  const CategoryIcon = getIcon(category.icon);
   return (
     <div
       id={category.slug}
       className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center py-14 border-b border-accent-light last:border-b-0 scroll-mt-24"
     >
       <div className={reversed ? "md:order-2" : ""}>
-        <div className="w-16 h-16 rounded-2xl bg-accent-light flex items-center justify-center text-3xl mb-5">
-          {category.icon}
+        <div className="w-16 h-16 rounded-2xl bg-accent-light flex items-center justify-center text-accent mb-5">
+          <CategoryIcon className="w-7 h-7" strokeWidth={2} />
         </div>
         <h2 className="text-2xl font-extrabold mb-3">{category.title}</h2>
         <p className="text-[15px] text-text mb-4">{detail.whatItIs}</p>
@@ -39,7 +41,7 @@ export default function CategoryDetailBlock({
 
       <div className={reversed ? "md:order-1" : ""}>
         <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-accent-light to-white border border-accent-light flex flex-col items-center justify-center gap-3 p-8 text-center">
-          <div className="text-6xl">{category.icon}</div>
+          <CategoryIcon className="w-14 h-14 text-accent" strokeWidth={1.5} />
           <div className="text-[13px] text-muted">
             Espacio para foto o video de una clase de {category.title}
           </div>

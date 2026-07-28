@@ -138,6 +138,72 @@ export const categories: Category[] = [
   },
 ];
 
+export type CategoryPitch = {
+  slug: string; // matchea con Category.slug
+  photo: string; // foto real de Flor haciendo la disciplina (julio 2026)
+  tagline: string;
+  benefits: string[];
+};
+
+// Sección "Nuestras disciplinas" del inicio (rediseño julio 2026): tarjetas
+// grandes con foto real + lista de beneficios, en vez de las tarjetas
+// chicas con miniatura genérica que había antes.
+export const categoryPitches: CategoryPitch[] = [
+  {
+    slug: "pilates-mat",
+    photo: "/images/flor-pilates.jpg",
+    tagline: "Movimiento consciente, postura y fuerza profunda.",
+    benefits: [
+      "Mejora tu postura",
+      "Aumentá tu flexibilidad",
+      "Fortalecé tu core",
+      "Reduce el estrés y la tensión",
+    ],
+  },
+  {
+    slug: "gap",
+    photo: "/images/flor-gap.jpg",
+    tagline: "Entrenamiento enfocado en glúteos, abdomen y piernas.",
+    benefits: ["Tonificá y definí", "Fortalecé tu cuerpo", "Aumentá tu energía", "Resultados visibles"],
+  },
+];
+
+export type DisciplineComparisonRow = {
+  icon: string;
+  label: string;
+  pilatesMat: string;
+  gap: string;
+};
+
+// Tabla "¿Cuál elegir?" debajo de las tarjetas grandes — mismo rediseño de
+// julio 2026, para ayudar a decidir entre las dos disciplinas de un vistazo.
+export const disciplineComparison: DisciplineComparisonRow[] = [
+  {
+    icon: "bar-chart",
+    label: "Intensidad",
+    pilatesMat: "Ideal si buscás movilidad y bienestar",
+    gap: "Ideal si buscás tonificar y ganar fuerza",
+  },
+  {
+    icon: "target",
+    label: "Objetivo principal",
+    pilatesMat: "Entrenamiento de bajo impacto",
+    gap: "Entrenamiento de intensidad media",
+  },
+  {
+    icon: "person",
+    label: "Tipo de entrenamiento",
+    pilatesMat: "Enfoque en la postura y la respiración",
+    gap: "Enfoque en glúteos, abdomen y piernas",
+  },
+  {
+    icon: "heart",
+    label: "Beneficio principal",
+    pilatesMat: "Sensación de liviandad y equilibrio",
+    gap: "Más fuerza, tono y definición",
+  },
+];
+
 export type CategoryDetail = {
   slug: string;
   whatItIs: string;

@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CtaBanner from "@/components/CtaBanner";
 import { categories } from "@/data/content";
+import { getIcon } from "@/lib/icon-map";
 
 export const metadata: Metadata = {
   title: "Membresía y precios — Elegí tu disciplina",
@@ -32,22 +33,25 @@ export default function MembresiaPage() {
 
         <section className="px-6 py-14">
           <div className="max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {categories.map((cat) => (
-              <Link
-                key={cat.slug}
-                href={`/membresia/${cat.slug}`}
-                className="bg-white border border-accent-light rounded-2xl p-7 shadow-[0_10px_30px_rgba(62,25,56,0.06)] hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(62,25,56,0.12)] transition-all block"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-[52px] h-[52px] rounded-2xl bg-accent-light flex items-center justify-center text-2xl">
-                    {cat.icon}
+            {categories.map((cat) => {
+              const CategoryIcon = getIcon(cat.icon);
+              return (
+                <Link
+                  key={cat.slug}
+                  href={`/membresia/${cat.slug}`}
+                  className="bg-white border border-accent-light rounded-2xl p-7 shadow-[0_10px_30px_rgba(62,25,56,0.06)] hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(62,25,56,0.12)] transition-all block"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-[52px] h-[52px] rounded-2xl bg-accent-light flex items-center justify-center text-accent">
+                      <CategoryIcon className="w-6 h-6" strokeWidth={2} />
+                    </div>
                   </div>
-                </div>
-                <h3 className="text-lg font-semibold mb-2">{cat.title}</h3>
-                <p className="text-muted text-sm mb-3.5">{cat.description}</p>
-                <span className="text-accent font-semibold text-sm">Ver membresías y precios →</span>
-              </Link>
-            ))}
+                  <h3 className="text-lg font-semibold mb-2">{cat.title}</h3>
+                  <p className="text-muted text-sm mb-3.5">{cat.description}</p>
+                  <span className="text-accent font-semibold text-sm">Ver membresías y precios →</span>
+                </Link>
+              );
+            })}
           </div>
         </section>
 
