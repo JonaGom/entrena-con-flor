@@ -8,7 +8,7 @@ export default function SectionHead({
   description?: string;
 }) {
   return (
-    <div className="text-center max-w-xl mx-auto mb-12">
+    <div className="text-center max-w-xl mx-auto mb-8">
       <div className="text-accent font-bold text-[13px] tracking-[1.2px] uppercase mb-2.5">
         {kicker}
       </div>

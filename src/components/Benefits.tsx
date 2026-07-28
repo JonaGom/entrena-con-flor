@@ -7,7 +7,7 @@ import SectionHead from "./SectionHead";
 // menos de 10 segundos, antes de mostrar disciplinas y membresías.
 export default function Benefits() {
   return (
-    <section className="px-6 py-16 md:py-20">
+    <section className="px-6 pt-10 pb-8 md:pt-12 md:pb-10">
       <SectionHead
         kicker="¿Por qué elegirnos?"
         title="Entrenar debería adaptarse a tu vida, no al revés."
@@ -15,7 +15,7 @@ export default function Benefits() {
 
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-5 md:gap-8">
         {platformBenefits.map((b, i) => (
-          <Reveal key={b.title} delay={i * 90}>
+          <Reveal key={b.title} delay={i * 60}>
             <div className="h-full flex flex-col rounded-2xl overflow-hidden border border-accent-light bg-white shadow-[0_10px_30px_rgba(62,25,56,0.05)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(62,25,56,0.12)]">
               <div className="relative aspect-[4/3]">
                 <Image

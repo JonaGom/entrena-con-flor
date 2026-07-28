@@ -5,7 +5,7 @@ import { heroCopy, heroStats } from "@/data/content";
 
 export default function Hero() {
   return (
-    <section className="hero-vignette relative overflow-hidden text-white px-6 pt-24 pb-28 md:pt-28 md:pb-32">
+    <section className="hero-vignette relative overflow-hidden text-white px-6 pt-24 pb-16 md:pt-28 md:pb-20">
       {/* Fondo: foto de Flor a pantalla completa, con overlay oscuro en degradé
           para que el texto siga siendo legible encima. */}
       <div className="absolute inset-0 -z-10">

@@ -8,7 +8,7 @@ import Reveal from "./Reveal";
 
 export default function Categories() {
   return (
-    <section id="servicios" className="px-6 pt-20 pb-8">
+    <section id="servicios" className="px-6 pt-8 pb-6">
       <SectionHead
         kicker="Nuestras disciplinas"
         title="Elegí cómo querés entrenar"
@@ -23,7 +23,7 @@ export default function Categories() {
             const CategoryIcon = getIcon(cat.icon);
             if (!pitch) return null;
             return (
-              <Reveal key={cat.slug} delay={i * 90}>
+              <Reveal key={cat.slug} delay={i * 60}>
                 <Link
                   href={`/clases?categoria=${cat.slug}`}
                   className="group relative block aspect-[4/5] sm:aspect-[16/12] rounded-3xl overflow-hidden border border-white/10 shadow-[0_16px_40px_rgba(62,25,56,0.14)] transition-transform duration-300 hover:-translate-y-1"

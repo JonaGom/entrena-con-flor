@@ -10,7 +10,7 @@ export default function Testimonials() {
 
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-[22px]">
         {testimonials.map((t, i) => (
-          <Reveal key={t.initials} delay={i * 90}>
+          <Reveal key={t.initials} delay={i * 60}>
             <div className="bg-white border border-accent-light rounded-2xl p-[26px] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(62,25,56,0.1)]">
               <div className="flex gap-0.5 text-gold mb-3">
                 {Array.from({ length: 5 }).map((_, star) => (

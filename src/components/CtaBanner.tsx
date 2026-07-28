@@ -11,7 +11,7 @@ const checklistIcons: Record<string, typeof Check> = {
 
 export default function CtaBanner() {
   return (
-    <section className="px-6 pt-8 pb-20">
+    <section className="px-6 pt-4 pb-14 md:pb-16">
       <div className="relative max-w-6xl mx-auto overflow-hidden rounded-3xl bg-gradient-to-br from-[#1c0e22] via-[#2c1330] to-[#3e1938] text-white">
         {/* Formas decorativas */}
         <div className="pointer-events-none absolute -top-24 -left-20 w-72 h-72 rounded-full bg-accent-mid/30 blur-3xl" />
