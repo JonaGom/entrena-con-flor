@@ -10,8 +10,10 @@ const links = [
   { href: "/", label: "Inicio" },
   { href: "/clases", label: "Clases" },
   { href: "/membresia", label: "Membresía" },
-  { href: "/#sobre-flor", label: "Sobre Flor" },
-  { href: "/#contacto", label: "Contacto" },
+  // Sobre Flor y Contacto ahora son páginas propias (ya no secciones del
+  // inicio) — se abren en una pestaña nueva a pedido de Jonathan.
+  { href: "/sobre-flor", label: "Sobre Flor", newTab: true },
+  { href: "/contacto", label: "Contacto", newTab: true },
 ];
 
 export default function Header() {
@@ -76,6 +78,8 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
+              target={link.newTab ? "_blank" : undefined}
+              rel={link.newTab ? "noopener noreferrer" : undefined}
               className="hover:text-accent transition-colors duration-300"
             >
               {link.label}
@@ -150,6 +154,8 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
+              target={link.newTab ? "_blank" : undefined}
+              rel={link.newTab ? "noopener noreferrer" : undefined}
               onClick={() => setMenuOpen(false)}
               className="py-3 border-b border-accent-light/70 last:border-b-0 hover:text-accent transition-colors duration-300"
             >

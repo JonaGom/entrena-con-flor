@@ -27,7 +27,12 @@ export default function Footer() {
           <Link href="/membresia" className="block text-white/65 text-[13.5px] mb-2">
             Membresía
           </Link>
-          <Link href="/#sobre-flor" className="block text-white/65 text-[13.5px] mb-2">
+          <Link
+            href="/sobre-flor"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block text-white/65 text-[13.5px] mb-2"
+          >
             Sobre Flor
           </Link>
         </div>

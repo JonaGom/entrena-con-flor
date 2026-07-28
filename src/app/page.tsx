@@ -4,12 +4,13 @@ import Benefits from "@/components/Benefits";
 import Categories from "@/components/Categories";
 import WhyTrain from "@/components/WhyTrain";
 import Testimonials from "@/components/Testimonials";
-import About from "@/components/About";
-import Contacto from "@/components/Contacto";
 import CtaBanner from "@/components/CtaBanner";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
 
+// "Sobre Flor" y "Contacto" pasaron a ser páginas propias (/sobre-flor,
+// /contacto) en vez de secciones del inicio — el link del menú abre esas
+// páginas en una pestaña nueva (ver Header.tsx).
 export default function Home() {
   return (
     <>
@@ -25,12 +26,6 @@ export default function Home() {
         </Reveal>
         <Reveal>
           <Testimonials />
-        </Reveal>
-        <Reveal>
-          <About />
-        </Reveal>
-        <Reveal>
-          <Contacto />
         </Reveal>
         <Reveal>
           <CtaBanner />
