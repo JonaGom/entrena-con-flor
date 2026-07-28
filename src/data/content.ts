@@ -38,6 +38,22 @@ export const heroCopy = {
   quoteAuthor: "Flor",
 };
 
+// Banner final de cierre del inicio ("Tu mejor versión empieza hoy."),
+// rediseñado en base a un mockup de Jonathan (julio 2026).
+export const closingCta = {
+  kicker: "Empezá hoy",
+  titleStart: "Tu mejor versión empieza ",
+  titleAccent: "hoy.",
+  subtitle: "Entrená Pilates o GAP cuando quieras, desde cualquier lugar.",
+  cta: "Probar una clase gratis",
+  photo: "/images/flor-pilates.jpg",
+  checklist: [
+    { icon: "check", text: "Acceso inmediato" },
+    { icon: "refresh", text: "Cancelá cuando quieras" },
+    { icon: "play", text: "Nuevas clases cada semana" },
+  ],
+};
+
 export type PlatformBenefit = {
   icon: string;
   title: string;
