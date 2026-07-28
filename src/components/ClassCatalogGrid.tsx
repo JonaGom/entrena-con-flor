@@ -4,21 +4,25 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Video } from "lucide-react";
-import { categories, type CatalogClass, type Category } from "@/data/content";
+import { categories, getCatalogClassThumbnail, type CatalogClass, type Category } from "@/data/content";
 import { getIcon } from "@/lib/icon-map";
 
 function ClassCard({ clase, category }: { clase: CatalogClass; category?: Category }) {
   const CategoryIcon = category ? getIcon(category.icon) : null;
+  // Miniatura real de esta clase puntual si ya está cargada (mismo frame
+  // que se usa en /catalogo); si no hay una todavía, usamos la genérica de
+  // la disciplina como respaldo.
+  const thumbnail = getCatalogClassThumbnail(clase.slug) ?? category?.thumbnail;
   return (
     <Link
       href={`/clases/${clase.slug}`}
       className="group block bg-white rounded-2xl overflow-hidden border border-accent-light transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(62,25,56,0.12)] hover:border-accent/30"
     >
       <div className="relative aspect-video">
-        {category?.thumbnail ? (
+        {thumbnail ? (
           <Image
-            src={category.thumbnail}
-            alt={category.title}
+            src={thumbnail}
+            alt={clase.title}
             fill
             sizes="280px"
             className="object-cover"
