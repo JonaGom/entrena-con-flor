@@ -50,10 +50,8 @@ export default function Header() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // El header se esconde al scrollear hacia abajo (para que nunca se pise
-  // con el contenido de las secciones, ya que queda transparente todo el
-  // tiempo) y reaparece al scrollear hacia arriba, al estar cerca del techo
-  // de la página, o al mover el mouse cerca del borde superior.
+  // El header se esconde al scrollear hacia abajo y reaparece al scrollear
+  // hacia arriba (o al estar cerca del techo de la página).
   useEffect(() => {
     lastY.current = window.scrollY;
 
@@ -71,47 +69,34 @@ export default function Header() {
       lastY.current = y;
     };
 
-    const onMouseMove = (e: MouseEvent) => {
-      if (e.clientY < 80) setHidden(false);
-    };
-
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("mousemove", onMouseMove);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("mousemove", onMouseMove);
-    };
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Transparente en todo el inicio (también mientras se scrollea), y solo se
-  // vuelve sólido si se abre el menú mobile (para que el panel desplegable
-  // se lea bien). En cualquier otra página queda siempre sólido, porque no
-  // tienen una foto de fondo debajo para apoyarse.
-  const transparent = isHome && !menuOpen;
+  // En el inicio el header queda siempre "vidrio esmerilado" (fondo oscuro
+  // semi-transparente + blur) en vez de sólido blanco, para apoyarse sobre
+  // la foto del Hero y a la vez distinguirse claramente de cualquier
+  // contenido que quede por debajo cuando reaparece más abajo en la página.
+  // Solo pasa a sólido blanco si se abre el menú mobile (para que el panel
+  // desplegable se lea bien). En cualquier otra página queda siempre sólido.
+  const glass = isHome && !menuOpen;
 
   return (
     <>
       <header
         className={
-          "fixed top-0 inset-x-0 z-50 border-b transition-[background-color,border-color,box-shadow,transform] duration-300 " +
-          (transparent
-            ? "bg-transparent border-transparent"
+          "fixed top-0 inset-x-0 z-50 border-b transition-[background-color,border-color,box-shadow,transform,backdrop-filter] duration-300 " +
+          (glass
+            ? "bg-black/30 backdrop-blur-md border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
             : "bg-white/95 backdrop-blur-lg border-black/5 shadow-[0_8px_24px_rgba(62,25,56,0.08)]") +
           " " +
           (hidden && !menuOpen ? "-translate-y-full" : "translate-y-0")
         }
       >
-        {/* Velo suave permanente detrás del contenido del nav cuando es
-            transparente: así el logo/links en blanco se siguen leyendo bien
-            aunque abajo haya fondo claro (no solo la foto oscura del Hero). */}
-        {transparent && (
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-transparent" />
-        )}
-
         <div className={`relative max-w-6xl mx-auto flex items-center justify-between px-6 ${HEADER_HEIGHT}`}>
           <Link href="/" className="flex items-center" onClick={() => setMenuOpen(false)}>
             <Image
-              src={transparent ? "/logo/logo-horizontal-on-dark.svg" : "/logo/logo-horizontal-light.svg"}
+              src={glass ? "/logo/logo-horizontal-on-dark.svg" : "/logo/logo-horizontal-light.svg"}
               alt={brand.name}
               width={520}
               height={136}
@@ -123,7 +108,7 @@ export default function Header() {
           <nav
             className={
               "hidden md:flex gap-7 text-[15px] font-medium transition-colors duration-300 " +
-              (transparent ? "text-white/90" : "text-text")
+              (glass ? "text-white/90" : "text-text")
             }
           >
             {links.map((link) => (
@@ -134,7 +119,7 @@ export default function Header() {
                 rel={link.newTab ? "noopener noreferrer" : undefined}
                 className={
                   "transition-colors duration-300 " +
-                  (transparent ? "hover:text-white" : "hover:text-accent")
+                  (glass ? "hover:text-white" : "hover:text-accent")
                 }
               >
                 {link.label}
@@ -156,7 +141,7 @@ export default function Header() {
                   href="/ingresar"
                   className={
                     "rounded-full border-[1.5px] px-5 py-2.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 " +
-                    (transparent
+                    (glass
                       ? "border-white/70 text-white hover:bg-white hover:text-accent-dark"
                       : "border-accent-dark text-accent-dark hover:bg-accent-dark hover:text-white")
                   }
@@ -184,13 +169,13 @@ export default function Header() {
             }}
             className={
               "md:hidden relative w-10 h-10 flex items-center justify-center rounded-full transition-colors " +
-              (transparent ? "hover:bg-white/15" : "hover:bg-accent-light")
+              (glass ? "hover:bg-white/15" : "hover:bg-accent-light")
             }
           >
             <span
               className={
                 "absolute block h-[2px] w-5 rounded-full transition-all duration-300 " +
-                (transparent ? "bg-white" : "bg-accent-dark") +
+                (glass ? "bg-white" : "bg-accent-dark") +
                 " " +
                 (menuOpen ? "rotate-45" : "-translate-y-[6px]")
               }
@@ -198,7 +183,7 @@ export default function Header() {
             <span
               className={
                 "absolute block h-[2px] w-5 rounded-full transition-all duration-300 " +
-                (transparent ? "bg-white" : "bg-accent-dark") +
+                (glass ? "bg-white" : "bg-accent-dark") +
                 " " +
                 (menuOpen ? "opacity-0" : "opacity-100")
               }
@@ -206,7 +191,7 @@ export default function Header() {
             <span
               className={
                 "absolute block h-[2px] w-5 rounded-full transition-all duration-300 " +
-                (transparent ? "bg-white" : "bg-accent-dark") +
+                (glass ? "bg-white" : "bg-accent-dark") +
                 " " +
                 (menuOpen ? "-rotate-45" : "translate-y-[6px]")
               }
