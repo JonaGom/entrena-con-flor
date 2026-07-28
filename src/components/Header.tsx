@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -26,9 +26,10 @@ export default function Header() {
   const pathname = usePathname();
   const isHome = pathname === "/";
 
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
 
   useEffect(() => {
     const supabase = createClient();
@@ -37,13 +38,6 @@ export default function Header() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => setLoggedIn(!!session?.user));
     return () => subscription.unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   // Si cambian de tamaño de pantalla (o rotan el celular) con el menú
@@ -56,22 +50,65 @@ export default function Header() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // Transparente solo en el inicio, mientras estamos arriba del todo y con
-  // el menú cerrado — se apoya sobre la foto del Hero. En cualquier otra
-  // página (o apenas se scrollea/abre el menú) el header pasa a sólido.
-  const transparent = isHome && !scrolled && !menuOpen;
+  // El header se esconde al scrollear hacia abajo (para que nunca se pise
+  // con el contenido de las secciones, ya que queda transparente todo el
+  // tiempo) y reaparece al scrollear hacia arriba, al estar cerca del techo
+  // de la página, o al mover el mouse cerca del borde superior.
+  useEffect(() => {
+    lastY.current = window.scrollY;
+
+    const onScroll = () => {
+      const y = window.scrollY;
+      const delta = y - lastY.current;
+
+      if (y < 80) {
+        setHidden(false);
+      } else if (delta > 4) {
+        setHidden(true);
+      } else if (delta < -4) {
+        setHidden(false);
+      }
+      lastY.current = y;
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      if (e.clientY < 80) setHidden(false);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("mousemove", onMouseMove);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("mousemove", onMouseMove);
+    };
+  }, []);
+
+  // Transparente en todo el inicio (también mientras se scrollea), y solo se
+  // vuelve sólido si se abre el menú mobile (para que el panel desplegable
+  // se lea bien). En cualquier otra página queda siempre sólido, porque no
+  // tienen una foto de fondo debajo para apoyarse.
+  const transparent = isHome && !menuOpen;
 
   return (
     <>
       <header
         className={
-          "fixed top-0 inset-x-0 z-50 border-b transition-colors duration-300 " +
+          "fixed top-0 inset-x-0 z-50 border-b transition-[background-color,border-color,box-shadow,transform] duration-300 " +
           (transparent
             ? "bg-transparent border-transparent"
-            : "bg-white/95 backdrop-blur-lg border-black/5 shadow-[0_8px_24px_rgba(62,25,56,0.08)]")
+            : "bg-white/95 backdrop-blur-lg border-black/5 shadow-[0_8px_24px_rgba(62,25,56,0.08)]") +
+          " " +
+          (hidden && !menuOpen ? "-translate-y-full" : "translate-y-0")
         }
       >
-        <div className={`max-w-6xl mx-auto flex items-center justify-between px-6 ${HEADER_HEIGHT}`}>
+        {/* Velo suave permanente detrás del contenido del nav cuando es
+            transparente: así el logo/links en blanco se siguen leyendo bien
+            aunque abajo haya fondo claro (no solo la foto oscura del Hero). */}
+        {transparent && (
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-transparent" />
+        )}
+
+        <div className={`relative max-w-6xl mx-auto flex items-center justify-between px-6 ${HEADER_HEIGHT}`}>
           <Link href="/" className="flex items-center" onClick={() => setMenuOpen(false)}>
             <Image
               src={transparent ? "/logo/logo-horizontal-on-dark.svg" : "/logo/logo-horizontal-light.svg"}
@@ -141,7 +178,10 @@ export default function Header() {
             type="button"
             aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((v) => !v)}
+            onClick={() => {
+              setMenuOpen((v) => !v);
+              setHidden(false);
+            }}
             className={
               "md:hidden relative w-10 h-10 flex items-center justify-center rounded-full transition-colors " +
               (transparent ? "hover:bg-white/15" : "hover:bg-accent-light")
