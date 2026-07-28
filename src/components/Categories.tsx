@@ -8,7 +8,7 @@ import Reveal from "./Reveal";
 
 export default function Categories() {
   return (
-    <section id="servicios" className="px-6 py-20">
+    <section id="servicios" className="px-6 pt-20 pb-8">
       <SectionHead
         kicker="Nuestras disciplinas"
         title="Elegí cómo querés entrenar"
