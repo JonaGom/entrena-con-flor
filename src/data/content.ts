@@ -58,25 +58,30 @@ export type PlatformBenefit = {
   icon: string;
   title: string;
   text: string;
+  photo: string;
 };
 
 // Sección de 3 beneficios debajo del Hero, antes de las membresías: resume el
 // valor de la plataforma en pocos segundos (idea de Jonathan, julio 2026).
+// Rediseñada con tarjetas numeradas + foto (mockup de Jonathan, julio 2026).
 export const platformBenefits: PlatformBenefit[] = [
   {
     icon: "video",
     title: "Clases disponibles 24/7",
     text: "Entrená cuando te quede cómodo, sin depender del horario de una clase.",
+    photo: "/images/benefit-1.jpg",
   },
   {
     icon: "trending-up",
     title: "Rutinas nuevas cada semana",
     text: "El catálogo se actualiza todo el tiempo, así siempre sumás variedad.",
+    photo: "/images/benefit-2.jpg",
   },
   {
     icon: "home",
     title: "Entrená desde donde quieras",
     text: "En tu casa, en un patio o de viaje — solo hace falta una colchoneta.",
+    photo: "/images/benefit-3.jpg",
   },
 ];
 
