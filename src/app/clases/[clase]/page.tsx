@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Lightbulb, Lock } from "lucide-react";
+import { Lightbulb, Lock, Play } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PackageCard from "@/components/PackageCard";
-import { catalogClasses, categories, getMembershipCards } from "@/data/content";
+import {
+  catalogClasses,
+  categories,
+  getCatalogClassThumbnail,
+  getCatalogClassVideoUrl,
+  getMembershipCards,
+} from "@/data/content";
 import { getIcon } from "@/lib/icon-map";
+import { createClient } from "@/lib/supabase/server";
+import { canAccessCategory } from "@/lib/membership";
+import type { Profile } from "@/lib/supabase/types";
 
 export async function generateStaticParams() {
   return catalogClasses.map((c) => ({ clase: c.slug }));
@@ -41,6 +50,27 @@ export default async function ClaseDetallePage({
   const nextClass = index < catalogClasses.length - 1 ? catalogClasses[index + 1] : null;
   const membershipCards = getMembershipCards(item.category);
 
+  // Si la persona ya está logueada y su membresía cubre esta disciplina,
+  // desbloqueamos el video acá mismo (en vez de mandarla siempre al
+  // paywall) — así "Clases" del menú público y "Mis clases" del área
+  // privada muestran el mismo contenido real para quien ya pagó.
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  let profile: Profile | null = null;
+  if (user) {
+    const { data } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .maybeSingle<Profile>();
+    profile = data;
+  }
+  const unlocked = canAccessCategory(profile, item.category);
+  const videoUrl = unlocked ? getCatalogClassVideoUrl(item.slug) : null;
+  const posterUrl = unlocked ? getCatalogClassThumbnail(item.slug) : null;
+
   return (
     <>
       <Header />
@@ -53,18 +83,42 @@ export default async function ClaseDetallePage({
 
             <div className="mt-4 grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-8 items-start">
               <div>
-                {/* Miniatura bloqueada: placeholder sólido de marca + candado, sin
-                    imagen real todavía (la clase se desbloquea con una membresía). */}
-                <div className="relative aspect-video rounded-2xl bg-[radial-gradient(120%_140%_at_15%_0%,var(--brand-accent-mid)_0%,var(--brand-accent-dark)_60%,#2a1027_100%)] flex flex-col items-center justify-center gap-3 text-white border border-white/10 overflow-hidden">
-                  <div className="pointer-events-none absolute inset-0 opacity-[0.08] [background-image:radial-gradient(1px_1px_at_20px_20px,white_1px,transparent_0)] [background-size:34px_34px]" />
-                  <span className="flex items-center justify-center w-16 h-16 rounded-full bg-white/12 border border-white/25 backdrop-blur-md">
-                    <Lock className="w-7 h-7" strokeWidth={2} />
-                  </span>
-                  <div className="text-sm font-semibold text-white/85">Contenido bloqueado</div>
-                  <div className="text-xs text-white/60 px-6 text-center">
-                    Elegí una membresía para desbloquear esta clase y todo el catálogo
+                {unlocked ? (
+                  videoUrl ? (
+                    <div className="aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black">
+                      <video
+                        key={videoUrl}
+                        controls
+                        preload="metadata"
+                        poster={posterUrl ?? undefined}
+                        className="w-full h-full"
+                        src={videoUrl}
+                      >
+                        Tu navegador no puede reproducir este video.
+                      </video>
+                    </div>
+                  ) : (
+                    <div className="aspect-video rounded-2xl bg-gradient-to-br from-accent-dark to-accent-mid flex flex-col items-center justify-center gap-3 text-white border border-white/10">
+                      <Play className="w-14 h-14" fill="currentColor" strokeWidth={0} />
+                      <div className="text-sm text-white/70 px-6 text-center">
+                        Video de {category?.title ?? "esta clase"} próximamente
+                      </div>
+                    </div>
+                  )
+                ) : (
+                  // Miniatura bloqueada: placeholder sólido de marca + candado, sin
+                  // imagen real todavía (la clase se desbloquea con una membresía).
+                  <div className="relative aspect-video rounded-2xl bg-[radial-gradient(120%_140%_at_15%_0%,var(--brand-accent-mid)_0%,var(--brand-accent-dark)_60%,#2a1027_100%)] flex flex-col items-center justify-center gap-3 text-white border border-white/10 overflow-hidden">
+                    <div className="pointer-events-none absolute inset-0 opacity-[0.08] [background-image:radial-gradient(1px_1px_at_20px_20px,white_1px,transparent_0)] [background-size:34px_34px]" />
+                    <span className="flex items-center justify-center w-16 h-16 rounded-full bg-white/12 border border-white/25 backdrop-blur-md">
+                      <Lock className="w-7 h-7" strokeWidth={2} />
+                    </span>
+                    <div className="text-sm font-semibold text-white/85">Contenido bloqueado</div>
+                    <div className="text-xs text-white/60 px-6 text-center">
+                      Elegí una membresía para desbloquear esta clase y todo el catálogo
+                    </div>
                   </div>
-                </div>
+                )}
 
                 <div className="mt-7 bg-white rounded-2xl p-7 border border-accent-light shadow-[0_10px_30px_rgba(62,25,56,0.06)]">
                   <div className="flex items-center gap-2 mb-2">
@@ -121,21 +175,37 @@ export default async function ClaseDetallePage({
               </div>
 
               <div className="lg:sticky lg:top-24">
-                <div className="bg-white rounded-2xl p-6 border border-accent-light shadow-[0_10px_30px_rgba(62,25,56,0.06)]">
-                  <h2 className="text-lg font-extrabold mb-1.5">Elegí tu membresía</h2>
-                  <p className="text-muted text-sm mb-6">
-                    Para ver esta clase y el resto del catálogo, elegí una de estas opciones.
-                  </p>
-                  <div className="flex flex-col gap-4">
-                    {membershipCards.map((pkg) => (
-                      <PackageCard
-                        key={pkg.slug}
-                        pkg={pkg}
-                        ctaHref={`/membresia/${item.category}/${pkg.slug}`}
-                      />
-                    ))}
+                {unlocked ? (
+                  <div className="bg-white rounded-2xl p-6 border border-accent-light shadow-[0_10px_30px_rgba(62,25,56,0.06)]">
+                    <h2 className="text-lg font-extrabold mb-1.5">Ya tenés acceso a esta clase</h2>
+                    <p className="text-muted text-sm mb-6">
+                      Tu membresía te da acceso a todo el catálogo de{" "}
+                      {category?.title ?? "esta disciplina"}.
+                    </p>
+                    <Link
+                      href="/catalogo"
+                      className="block w-full text-center rounded-full bg-accent text-white px-5 py-3 text-sm font-semibold hover:-translate-y-px transition-transform"
+                    >
+                      Ir a mis clases
+                    </Link>
                   </div>
-                </div>
+                ) : (
+                  <div className="bg-white rounded-2xl p-6 border border-accent-light shadow-[0_10px_30px_rgba(62,25,56,0.06)]">
+                    <h2 className="text-lg font-extrabold mb-1.5">Elegí tu membresía</h2>
+                    <p className="text-muted text-sm mb-6">
+                      Para ver esta clase y el resto del catálogo, elegí una de estas opciones.
+                    </p>
+                    <div className="flex flex-col gap-4">
+                      {membershipCards.map((pkg) => (
+                        <PackageCard
+                          key={pkg.slug}
+                          pkg={pkg}
+                          ctaHref={`/membresia/${item.category}/${pkg.slug}`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

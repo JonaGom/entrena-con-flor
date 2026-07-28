@@ -385,6 +385,20 @@ function categoryToVideoPrefix(categorySlug: string | null | undefined): string 
   return "pilates";
 }
 
+function buildClassVideoUrl(key: string): string | null {
+  if (!AVAILABLE_CLASS_VIDEOS.has(key)) return null;
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (!supabaseUrl) return null;
+
+  return `${supabaseUrl}/storage/v1/object/public/class-videos/${key}.mp4`;
+}
+
+function buildClassThumbnail(key: string): string | null {
+  if (!AVAILABLE_CLASS_VIDEOS.has(key)) return null;
+  return `/images/thumbnails/classes/${key}.jpg`;
+}
+
 // Devuelve la URL pública del video de Supabase Storage para esta clase +
 // categoría, o null si todavía no hay un video real cargado (en ese caso
 // la página muestra el cartel de "video próximamente").
@@ -393,12 +407,20 @@ export function getClassVideoUrl(
   categorySlug: string | null | undefined
 ): string | null {
   const key = `${categoryToVideoPrefix(categorySlug)}-${classSlug}`;
-  if (!AVAILABLE_CLASS_VIDEOS.has(key)) return null;
+  return buildClassVideoUrl(key);
+}
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  if (!supabaseUrl) return null;
+// Igual que getClassVideoUrl/getClassThumbnail, pero para el catálogo
+// público (/clases), donde CatalogClass.slug ya viene con el prefijo de
+// disciplina incluido (ej. "pilates-semana1-dia-a"), así que coincide
+// directo con la clave de AVAILABLE_CLASS_VIDEOS sin tener que combinarlo
+// con la categoría.
+export function getCatalogClassVideoUrl(slug: string): string | null {
+  return buildClassVideoUrl(slug);
+}
 
-  return `${supabaseUrl}/storage/v1/object/public/class-videos/${key}.mp4`;
+export function getCatalogClassThumbnail(slug: string): string | null {
+  return buildClassThumbnail(slug);
 }
 
 // Miniaturas reales (julio 2026): un frame sacado de cada video de prueba
@@ -411,8 +433,7 @@ export function getClassThumbnail(
   categorySlug: string | null | undefined
 ): string | null {
   const key = `${categoryToVideoPrefix(categorySlug)}-${classSlug}`;
-  if (!AVAILABLE_CLASS_VIDEOS.has(key)) return null;
-  return `/images/thumbnails/classes/${key}.jpg`;
+  return buildClassThumbnail(key);
 }
 
 export const demoClasses: DemoClass[] = [
