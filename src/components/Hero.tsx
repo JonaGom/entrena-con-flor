@@ -4,7 +4,21 @@ import { heroCopy, heroStats } from "@/data/content";
 
 export default function Hero() {
   return (
-    <section className="hero-vignette relative overflow-hidden bg-[radial-gradient(120%_140%_at_15%_0%,var(--brand-accent-mid)_0%,var(--brand-accent-dark)_55%,#2a1027_100%)] text-white px-6 pt-24 pb-28 md:pt-28 md:pb-32">
+    <section className="hero-vignette relative overflow-hidden text-white px-6 pt-24 pb-28 md:pt-28 md:pb-32">
+      {/* Fondo: foto de Flor a pantalla completa, con overlay oscuro en degradé
+          para que el texto siga siendo legible encima. */}
+      <div className="absolute inset-0 -z-10">
+        <Image
+          src="/images/flor-hero.jpg"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#3e1938]/45 via-[#3e1938]/70 to-[#3e1938]/85" />
+      </div>
+
       {/* Manchas decorativas, con un movimiento ambiental muy sutil */}
       <div className="pointer-events-none absolute -right-[120px] -top-[120px] w-[420px] h-[420px] rounded-full bg-[radial-gradient(circle,rgba(232,163,61,0.32),transparent_70%)] blur-2xl animate-float-a" />
       <div className="pointer-events-none absolute -left-[100px] -bottom-[140px] w-[360px] h-[360px] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.10),transparent_70%)] blur-2xl animate-float-b" />
