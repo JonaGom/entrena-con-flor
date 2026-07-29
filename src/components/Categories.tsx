@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { ArrowRight, Crown, Star } from "lucide-react";
 import { categories, categoryPitches, disciplineComparison } from "@/data/content";
 import { getIcon } from "@/lib/icon-map";
 import CategoryPhotoCard from "./CategoryPhotoCard";
@@ -82,42 +80,6 @@ export default function Categories() {
 
             <div className="hidden sm:flex shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-full bg-white items-center justify-center text-[#c9622e] shadow-[0_10px_24px_rgba(62,25,56,0.12)]">
               <FlameIcon className="w-7 h-7 md:w-8 md:h-8" strokeWidth={1.75} />
-            </div>
-          </div>
-        </Reveal>
-
-        {/* Banner Full Access. */}
-        <Reveal>
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-accent-dark via-accent to-accent-mid text-white">
-            <div className="relative z-10 flex flex-wrap items-center gap-6 p-7 md:p-9">
-              <div className="flex-1 min-w-[220px]">
-                <div className="inline-flex items-center gap-1.5 bg-white/10 border border-white/25 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-gold mb-3">
-                  <Star className="w-3 h-3" fill="currentColor" strokeWidth={0} />
-                  Recomendado
-                </div>
-                <h3 className="text-2xl md:text-[26px] font-extrabold mb-1.5">¿No podés decidir?</h3>
-                <p className="text-white/80 text-[14.5px] max-w-md">
-                  Con Full Access tenés Pilates Mat + GAP juntos, en un solo plan.
-                </p>
-              </div>
-
-              <div className="flex items-center gap-3.5 bg-white/10 border border-white/15 rounded-2xl px-5 py-4 backdrop-blur-sm">
-                <div className="w-11 h-11 rounded-full bg-gold/20 flex items-center justify-center text-gold shrink-0">
-                  <Crown className="w-5 h-5" strokeWidth={2} />
-                </div>
-                <div>
-                  <div className="text-gold font-bold text-[11px] uppercase tracking-wide">Full Access</div>
-                  <div className="text-sm text-white/85">Todo el contenido, un solo plan.</div>
-                </div>
-              </div>
-
-              <Link
-                href="/membresia"
-                className="inline-flex items-center gap-2 rounded-full bg-gold text-[#3a2400] px-7 py-3.5 text-base font-semibold shadow-[0_10px_26px_rgba(232,163,61,0.35)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(232,163,61,0.45)] hover:bg-[#f0b04f] whitespace-nowrap"
-              >
-                Quiero Full Access
-                <ArrowRight className="w-4 h-4" strokeWidth={2} />
-              </Link>
             </div>
           </div>
         </Reveal>

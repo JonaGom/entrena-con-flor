@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import About from "@/components/About";
-import CtaBanner from "@/components/CtaBanner";
 
 export const metadata: Metadata = {
   title: "Sobre Flor",
@@ -18,7 +17,6 @@ export default function SobreFlorPage() {
       <Header />
       <main>
         <About />
-        <CtaBanner />
       </main>
       <Footer />
     </>

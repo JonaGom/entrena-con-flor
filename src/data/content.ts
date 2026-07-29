@@ -44,19 +44,35 @@ export const heroCopy = {
 };
 
 // Banner final de cierre del inicio ("Tu mejor versión empieza hoy."),
-// rediseñado en base a un mockup de Jonathan (julio 2026).
+// rediseñado en base a un mockup de Jonathan (julio 2026). Actualizado de
+// nuevo (julio 2026): se fusionó con el banner de Full Access que antes
+// vivía al final de "Nuestras disciplinas" — Jonathan sentía que tener los
+// dos CTAs de cierre (este + el del Hero) era repetitivo, así que ahora es
+// un solo banner que combina "empezá hoy" con la recomendación de Full
+// Access, y vive únicamente en el inicio (se sacó de las demás páginas).
 export const closingCta = {
   kicker: "Empezá hoy",
   titleStart: "Tu mejor versión empieza ",
   titleAccent: "hoy.",
   subtitle: "Entrená Pilates o GAP cuando quieras, desde cualquier lugar.",
   cta: "Probar una clase gratis",
+  ctaHref: "/clases",
   photo: "/images/flor-pilates.jpg",
   checklist: [
     { icon: "check", text: "Acceso inmediato" },
     { icon: "refresh", text: "Cancelá cuando quieras" },
     { icon: "play", text: "Nuevas clases cada semana" },
   ],
+  // Franja "¿No podés decidir?" (antes un banner aparte en Categories.tsx).
+  fullAccess: {
+    badge: "Recomendado",
+    heading: "¿No podés decidir?",
+    text: "Con Full Access tenés Pilates Mat + GAP juntos, en un solo plan.",
+    chipLabel: "Full Access",
+    chipText: "Todo el contenido, un solo plan.",
+    cta: "Quiero Full Access",
+    ctaHref: "/membresia",
+  },
 };
 
 export type PlatformBenefit = {

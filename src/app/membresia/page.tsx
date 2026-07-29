@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import CtaBanner from "@/components/CtaBanner";
 import CategoryPhotoCard from "@/components/CategoryPhotoCard";
 import Reveal from "@/components/Reveal";
 import { categories, categoryPitches } from "@/data/content";
@@ -49,8 +48,6 @@ export default function MembresiaPage() {
             })}
           </div>
         </section>
-
-        <CtaBanner />
       </main>
       <Footer />
     </>

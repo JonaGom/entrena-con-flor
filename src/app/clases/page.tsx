@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import CtaBanner from "@/components/CtaBanner";
 import ClassCatalogGrid from "@/components/ClassCatalogGrid";
 import { catalogClasses } from "@/data/content";
 
@@ -40,8 +39,6 @@ export default async function ClasesPage({
             <ClassCatalogGrid classes={catalogClasses} initialCategory={categoria} />
           </div>
         </section>
-
-        <CtaBanner />
       </main>
       <Footer />
     </>

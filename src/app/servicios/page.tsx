@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import CtaBanner from "@/components/CtaBanner";
 import CategoryDetailBlock from "@/components/CategoryDetailBlock";
 import { categories, categoryDetails } from "@/data/content";
 
@@ -43,8 +42,6 @@ export default function ServiciosPage() {
             );
           })}
         </section>
-
-        <CtaBanner />
       </main>
       <Footer />
     </>

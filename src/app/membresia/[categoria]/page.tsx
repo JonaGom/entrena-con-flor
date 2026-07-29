@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import CtaBanner from "@/components/CtaBanner";
 import PackageCard from "@/components/PackageCard";
 import PlanAxesTable from "@/components/PlanAxesTable";
 import { categories, getMembershipCards } from "@/data/content";
@@ -77,7 +76,6 @@ export default async function CategoriaMembresiaPage({
               </div>
             </div>
           </section>
-          <CtaBanner />
         </main>
         <Footer />
       </>
@@ -137,8 +135,6 @@ export default async function CategoriaMembresiaPage({
             </p>
           </div>
         </section>
-
-        <CtaBanner />
       </main>
       <Footer />
     </>
