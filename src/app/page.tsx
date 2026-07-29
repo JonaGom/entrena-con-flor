@@ -17,10 +17,10 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <Benefits />
         <Reveal>
           <Categories />
         </Reveal>
+        <Benefits />
         <Reveal>
           <CtaBanner />
         </Reveal>
