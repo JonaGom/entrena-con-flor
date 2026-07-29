@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { brand } from "@/data/content";
+import { ChevronDown } from "lucide-react";
+import { brand, categories } from "@/data/content";
+import { getIcon } from "@/lib/icon-map";
 import { createClient } from "@/lib/supabase/client";
 
 const links = [
@@ -29,6 +31,10 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  // Acordeón de "Clases" en el menú mobile (en desktop el submenú se abre
+  // con hover, ver más abajo) — deja elegir GAP o Pilates Mat directo desde
+  // el nav, sin pasar primero por el catálogo general.
+  const [mobileClassesOpen, setMobileClassesOpen] = useState(false);
 
   useEffect(() => {
     const supabase = createClient();
@@ -48,6 +54,12 @@ export default function Header() {
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
+
+  // Si se cierra el menú mobile, replegamos también el acordeón de Clases
+  // para que la próxima vez que se abra el menú arranque colapsado.
+  useEffect(() => {
+    if (!menuOpen) setMobileClassesOpen(false);
+  }, [menuOpen]);
 
   // El header queda siempre fijo y visible — al scrollear un poco se achica
   // (menos alto, logo más chico) para ocupar menos lugar, pero nunca
@@ -110,21 +122,67 @@ export default function Header() {
               (glass ? "text-white/90" : "text-text")
             }
           >
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                target={link.newTab ? "_blank" : undefined}
-                rel={link.newTab ? "noopener noreferrer" : undefined}
-                onClick={link.href === "/" ? handleHomeClick : undefined}
-                className={
-                  "transition-colors duration-300 " +
-                  (glass ? "hover:text-white" : "hover:text-accent")
-                }
-              >
-                {link.label}
-              </Link>
-            ))}
+            {links.map((link) => {
+              // "Clases" se despliega con un submenú al pasar el mouse, para
+              // ir directo a GAP o Pilates Mat sin pasar primero por el
+              // catálogo general (a pedido de Jonathan).
+              if (link.href === "/clases") {
+                return (
+                  <div key={link.href} className="relative group">
+                    <Link
+                      href={link.href}
+                      className={
+                        "flex items-center gap-1 transition-colors duration-300 " +
+                        (glass ? "hover:text-white" : "hover:text-accent")
+                      }
+                    >
+                      {link.label}
+                      <ChevronDown
+                        className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-180"
+                        strokeWidth={2.5}
+                      />
+                    </Link>
+
+                    {/* Puente invisible para que el hover no se corte entre el link y el panel */}
+                    <div className="absolute left-0 top-full w-full h-3" />
+
+                    <div className="absolute left-0 top-full mt-3 opacity-0 invisible -translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-20">
+                      <div className="min-w-[190px] rounded-2xl bg-white border border-black/5 shadow-[0_16px_40px_rgba(62,25,56,0.18)] p-2">
+                        {categories.map((cat) => {
+                          const CatIcon = getIcon(cat.icon);
+                          return (
+                            <Link
+                              key={cat.slug}
+                              href={`/clases?categoria=${cat.slug}`}
+                              className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-[14px] text-text hover:bg-accent-light hover:text-accent-dark transition-colors duration-200"
+                            >
+                              <CatIcon className="w-4 h-4 text-accent" strokeWidth={2} />
+                              {cat.title}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  target={link.newTab ? "_blank" : undefined}
+                  rel={link.newTab ? "noopener noreferrer" : undefined}
+                  onClick={link.href === "/" ? handleHomeClick : undefined}
+                  className={
+                    "transition-colors duration-300 " +
+                    (glass ? "hover:text-white" : "hover:text-accent")
+                  }
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
 
           <div className="hidden md:flex gap-2.5 items-center">
@@ -212,18 +270,67 @@ export default function Header() {
           }
         >
           <nav className="flex flex-col px-6 py-4 gap-1 text-[15px] font-medium bg-white/95 text-text">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                target={link.newTab ? "_blank" : undefined}
-                rel={link.newTab ? "noopener noreferrer" : undefined}
-                onClick={link.href === "/" ? handleHomeClick : () => setMenuOpen(false)}
-                className="py-3 border-b border-accent-light/70 last:border-b-0 hover:text-accent transition-colors duration-300"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {links.map((link) => {
+              // "Clases" se despliega como acordeón en mobile (no hay hover
+              // táctil) para elegir GAP o Pilates Mat directo desde el nav.
+              if (link.href === "/clases") {
+                return (
+                  <div key={link.href} className="border-b border-accent-light/70 last:border-b-0">
+                    <button
+                      type="button"
+                      onClick={() => setMobileClassesOpen((v) => !v)}
+                      aria-expanded={mobileClassesOpen}
+                      className="w-full flex items-center justify-between py-3 hover:text-accent transition-colors duration-300"
+                    >
+                      {link.label}
+                      <ChevronDown
+                        className={
+                          "w-4 h-4 transition-transform duration-300 " +
+                          (mobileClassesOpen ? "rotate-180" : "")
+                        }
+                        strokeWidth={2.5}
+                      />
+                    </button>
+                    <div
+                      className={
+                        "overflow-hidden transition-all duration-300 " +
+                        (mobileClassesOpen ? "max-h-40" : "max-h-0")
+                      }
+                    >
+                      <div className="flex flex-col gap-1 pb-3 pl-3">
+                        {categories.map((cat) => {
+                          const CatIcon = getIcon(cat.icon);
+                          return (
+                            <Link
+                              key={cat.slug}
+                              href={`/clases?categoria=${cat.slug}`}
+                              onClick={() => setMenuOpen(false)}
+                              className="flex items-center gap-2 py-2 text-[14px] text-muted hover:text-accent transition-colors duration-300"
+                            >
+                              <CatIcon className="w-3.5 h-3.5 text-accent" strokeWidth={2} />
+                              {cat.title}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  target={link.newTab ? "_blank" : undefined}
+                  rel={link.newTab ? "noopener noreferrer" : undefined}
+                  onClick={link.href === "/" ? handleHomeClick : () => setMenuOpen(false)}
+                  className="py-3 border-b border-accent-light/70 last:border-b-0 hover:text-accent transition-colors duration-300"
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
             <div className="flex gap-2.5 items-center pt-4">
               {loggedIn ? (
                 <Link
