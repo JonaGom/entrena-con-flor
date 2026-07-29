@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Play, Star } from "lucide-react";
 import { heroCopy, heroStats } from "@/data/content";
@@ -7,16 +6,17 @@ export default function Hero() {
   return (
     <section className="hero-vignette relative overflow-hidden text-white px-6 pt-24 pb-16 md:pt-28 md:pb-20">
       {/* Fondo: foto de Flor a pantalla completa, con overlay oscuro en degradé
-          para que el texto siga siendo legible encima. */}
-      <div className="absolute inset-0 -z-10">
-        <Image
-          src="/images/flor-hero.jpg"
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover"
-          priority
-        />
+          para que el texto siga siendo legible encima. `bg-fixed` deja la foto
+          "clavada" respecto a la ventana mientras se scrollea (efecto
+          parallax, a pedido de Jonathan) — el contenido se desliza por
+          encima y, al pasar el Hero, la siguiente sección la tapa. En iOS
+          Safari `background-attachment: fixed` no se soporta y cae de vuelta
+          a scroll normal, así que ahí no se nota el efecto pero tampoco se
+          rompe nada. */}
+      <div
+        className="absolute inset-0 -z-10 bg-fixed bg-cover bg-center"
+        style={{ backgroundImage: "url('/images/flor-hero.jpg')" }}
+      >
         <div className="absolute inset-0 bg-gradient-to-b from-[#3e1938]/45 via-[#3e1938]/70 to-[#3e1938]/85" />
       </div>
 
