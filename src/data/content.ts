@@ -50,20 +50,21 @@ export const heroCopy = {
 // dos CTAs de cierre (este + el del Hero) era repetitivo, así que ahora es
 // un solo banner que combina "empezá hoy" con la recomendación de Full
 // Access, y vive únicamente en el inicio (se sacó de las demás páginas).
+// Simplificado una vez más (julio 2026): sin foto (ya había demasiado
+// contenido visual) y con un solo CTA — "Quiero Full Access" — en vez de
+// tener un botón de "Probar una clase gratis" y otro de Full Access juntos.
 export const closingCta = {
   kicker: "Empezá hoy",
   titleStart: "Tu mejor versión empieza ",
   titleAccent: "hoy.",
   subtitle: "Entrená Pilates o GAP cuando quieras, desde cualquier lugar.",
-  cta: "Probar una clase gratis",
-  ctaHref: "/clases",
-  photo: "/images/flor-pilates.jpg",
   checklist: [
     { icon: "check", text: "Acceso inmediato" },
     { icon: "refresh", text: "Cancelá cuando quieras" },
     { icon: "play", text: "Nuevas clases cada semana" },
   ],
-  // Franja "¿No podés decidir?" (antes un banner aparte en Categories.tsx).
+  // Franja "¿No podés decidir?" (antes un banner aparte en Categories.tsx) —
+  // ahora es el único CTA del banner de cierre.
   fullAccess: {
     badge: "Recomendado",
     heading: "¿No podés decidir?",
