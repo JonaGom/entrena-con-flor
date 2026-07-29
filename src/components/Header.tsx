@@ -67,6 +67,19 @@ export default function Header() {
   // otra página queda siempre sólido.
   const glass = isHome && !menuOpen;
 
+  // Logo y link "Inicio": si ya estamos en el inicio, Next.js no dispara una
+  // navegación real (mismo href), así que el scroll no se movía solo aunque
+  // se hubiera scrolleado el Hero. Forzamos el scroll al tope a mano en ese
+  // caso; si venís de otra página, dejamos que el Link navegue normal (ya
+  // arranca arriba de todo).
+  const handleHomeClick = (e: React.MouseEvent) => {
+    setMenuOpen(false);
+    if (isHome) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <>
       <header
@@ -80,7 +93,7 @@ export default function Header() {
         }
       >
         <div className="max-w-6xl mx-auto flex items-center justify-between px-6 h-full">
-          <Link href="/" className="flex items-center" onClick={() => setMenuOpen(false)}>
+          <Link href="/" className="flex items-center" onClick={handleHomeClick}>
             <Image
               src={glass ? "/logo/logo-horizontal-on-dark.svg" : "/logo/logo-horizontal-light.svg"}
               alt={brand.name}
@@ -103,6 +116,7 @@ export default function Header() {
                 href={link.href}
                 target={link.newTab ? "_blank" : undefined}
                 rel={link.newTab ? "noopener noreferrer" : undefined}
+                onClick={link.href === "/" ? handleHomeClick : undefined}
                 className={
                   "transition-colors duration-300 " +
                   (glass ? "hover:text-white" : "hover:text-accent")
@@ -204,7 +218,7 @@ export default function Header() {
                 href={link.href}
                 target={link.newTab ? "_blank" : undefined}
                 rel={link.newTab ? "noopener noreferrer" : undefined}
-                onClick={() => setMenuOpen(false)}
+                onClick={link.href === "/" ? handleHomeClick : () => setMenuOpen(false)}
                 className="py-3 border-b border-accent-light/70 last:border-b-0 hover:text-accent transition-colors duration-300"
               >
                 {link.label}
