@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -17,9 +17,9 @@ const links = [
   { href: "/contacto", label: "Contacto", newTab: true },
 ];
 
-// Alto fijo del header (no cambia con el scroll) — usado para el "espaciador"
-// que reservan las páginas que no tienen el header flotando transparente
-// sobre un fondo oscuro (todas menos el inicio).
+// Alto del header sin scrollear — usado para el "espaciador" que reservan
+// las páginas que no tienen el header flotando sobre un fondo oscuro (todas
+// menos el inicio).
 const HEADER_HEIGHT = "h-[73px]";
 
 export default function Header() {
@@ -28,8 +28,7 @@ export default function Header() {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [hidden, setHidden] = useState(false);
-  const lastY = useRef(0);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const supabase = createClient();
@@ -50,25 +49,12 @@ export default function Header() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // El header se esconde al scrollear hacia abajo y reaparece al scrollear
-  // hacia arriba (o al estar cerca del techo de la página).
+  // El header queda siempre fijo y visible — al scrollear un poco se achica
+  // (menos alto, logo más chico) para ocupar menos lugar, pero nunca
+  // desaparece ni se esconde del todo.
   useEffect(() => {
-    lastY.current = window.scrollY;
-
-    const onScroll = () => {
-      const y = window.scrollY;
-      const delta = y - lastY.current;
-
-      if (y < 80) {
-        setHidden(false);
-      } else if (delta > 4) {
-        setHidden(true);
-      } else if (delta < -4) {
-        setHidden(false);
-      }
-      lastY.current = y;
-    };
-
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -76,35 +62,24 @@ export default function Header() {
   // En el inicio el header queda siempre "vidrio esmerilado" (fondo oscuro
   // semi-transparente + blur) en vez de sólido blanco, para apoyarse sobre
   // la foto del Hero y a la vez distinguirse claramente de cualquier
-  // contenido que quede por debajo cuando reaparece más abajo en la página.
-  // Solo pasa a sólido blanco si se abre el menú mobile (para que el panel
-  // desplegable se lea bien). En cualquier otra página queda siempre sólido.
+  // contenido que quede por debajo. Solo pasa a sólido blanco si se abre el
+  // menú mobile (para que el panel desplegable se lea bien). En cualquier
+  // otra página queda siempre sólido.
   const glass = isHome && !menuOpen;
-
-  // Al scrollear hacia abajo el header no desaparece del todo: se "minimiza"
-  // a una línea fina (para que se note que ahí sigue el nav) y se puede
-  // tocar/clickear para expandirlo de nuevo sin tener que scrollear.
-  const minimized = hidden && !menuOpen;
 
   return (
     <>
       <header
-        onClick={() => minimized && setHidden(false)}
         className={
-          "fixed top-0 inset-x-0 z-50 border-b overflow-hidden transition-[background-color,border-color,box-shadow,height] duration-300 " +
+          "fixed top-0 inset-x-0 z-50 border-b transition-[background-color,border-color,box-shadow,height] duration-300 " +
           (glass
             ? "bg-black/30 backdrop-blur-md border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
             : "bg-white/95 backdrop-blur-lg border-black/5 shadow-[0_8px_24px_rgba(62,25,56,0.08)]") +
           " " +
-          (minimized ? "cursor-pointer h-[6px]" : "h-[73px]")
+          (scrolled ? "h-[56px]" : "h-[73px]")
         }
       >
-        <div
-          className={
-            "transition-opacity duration-150 " + (minimized ? "opacity-0 pointer-events-none" : "opacity-100")
-          }
-        >
-        <div className={`relative max-w-6xl mx-auto flex items-center justify-between px-6 ${HEADER_HEIGHT}`}>
+        <div className="max-w-6xl mx-auto flex items-center justify-between px-6 h-full">
           <Link href="/" className="flex items-center" onClick={() => setMenuOpen(false)}>
             <Image
               src={glass ? "/logo/logo-horizontal-on-dark.svg" : "/logo/logo-horizontal-light.svg"}
@@ -112,7 +87,7 @@ export default function Header() {
               width={520}
               height={136}
               priority
-              className="w-auto h-9 transition-opacity duration-300"
+              className={"w-auto transition-all duration-300 " + (scrolled ? "h-7" : "h-9")}
             />
           </Link>
 
@@ -142,7 +117,10 @@ export default function Header() {
             {loggedIn ? (
               <Link
                 href="/mi-cuenta"
-                className="rounded-full bg-accent text-white px-5 py-2.5 text-sm font-semibold shadow-[0_6px_16px_rgba(107,44,95,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(107,44,95,0.38)] hover:bg-accent-mid"
+                className={
+                  "rounded-full bg-accent text-white font-semibold shadow-[0_6px_16px_rgba(107,44,95,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(107,44,95,0.38)] hover:bg-accent-mid " +
+                  (scrolled ? "px-4 py-2 text-[13px]" : "px-5 py-2.5 text-sm")
+                }
               >
                 Mi cuenta
               </Link>
@@ -151,7 +129,9 @@ export default function Header() {
                 <Link
                   href="/ingresar"
                   className={
-                    "rounded-full border-[1.5px] px-5 py-2.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 " +
+                    "rounded-full border-[1.5px] font-semibold transition-all duration-300 hover:-translate-y-0.5 " +
+                    (scrolled ? "px-4 py-2 text-[13px]" : "px-5 py-2.5 text-sm") +
+                    " " +
                     (glass
                       ? "border-white/70 text-white hover:bg-white hover:text-accent-dark"
                       : "border-accent-dark text-accent-dark hover:bg-accent-dark hover:text-white")
@@ -161,7 +141,10 @@ export default function Header() {
                 </Link>
                 <Link
                   href="/membresia"
-                  className="rounded-full bg-accent text-white px-5 py-2.5 text-sm font-semibold shadow-[0_6px_16px_rgba(107,44,95,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(107,44,95,0.38)] hover:bg-accent-mid"
+                  className={
+                    "rounded-full bg-accent text-white font-semibold shadow-[0_6px_16px_rgba(107,44,95,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(107,44,95,0.38)] hover:bg-accent-mid " +
+                    (scrolled ? "px-4 py-2 text-[13px]" : "px-5 py-2.5 text-sm")
+                  }
                 >
                   Comprar
                 </Link>
@@ -174,10 +157,7 @@ export default function Header() {
             type="button"
             aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={menuOpen}
-            onClick={() => {
-              setMenuOpen((v) => !v);
-              setHidden(false);
-            }}
+            onClick={() => setMenuOpen((v) => !v)}
             className={
               "md:hidden relative w-10 h-10 flex items-center justify-center rounded-full transition-colors " +
               (glass ? "hover:bg-white/15" : "hover:bg-accent-light")
@@ -260,13 +240,12 @@ export default function Header() {
             </div>
           </nav>
         </div>
-        </div>
       </header>
 
       {/* Espaciador: el header es "fixed" (salió del flujo normal), así que
           hay que reservarle su alto acá — excepto en el inicio, donde el
           propio padding superior del Hero ya deja lugar de sobra para que
-          el header flote transparente sobre la foto. */}
+          el header flote sobre la foto. */}
       {!isHome && <div className={HEADER_HEIGHT} aria-hidden />}
     </>
   );
